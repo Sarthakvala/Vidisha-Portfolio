@@ -1,0 +1,310 @@
+/* ============================================================
+   HERO — DESIGN.md "Display Poster Headline"
+   84px / weight 300 / -0.04em / never above 2 lines.
+   No shadows. Editorial surfaces sharp. Accent rationed to one hit.
+   ============================================================ */
+
+.hero {
+  padding-top: calc(var(--navh) + var(--spacing-80));
+  padding-bottom: var(--spacing-112);
+  background: var(--bg);
+}
+
+.container {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, var(--spacing-32));
+}
+
+/* Sub-paragraph + CTAs on the left, stat counters on the right. The
+   headline and its rule sit above this, at the full page measure. */
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(var(--spacing-48), 6vw, var(--spacing-80));
+  align-items: start;
+}
+
+/* --- Meta Eyebrow --- */
+.eyebrow {
+  display: block;
+  font-family: var(--font-switzer);
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-s);
+  margin-bottom: var(--spacing-32);
+}
+
+/* --- Display Poster Headline ---
+   Class specificity beats the global `h1,h2…{font-weight:700}` rule. */
+.headline {
+  font-family: var(--font-switzer);
+  font-size: clamp(42px, 8vw, var(--text-display));
+  line-height: var(--leading-display);
+  font-weight: var(--font-weight-light);
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* The system's one rationed chromatic moment above the fold: a 1px
+   accent stroke, used in its sanctioned border role — the words
+   themselves stay Ink Black at weight 300. No colour word-swap. */
+.headlineAccent {
+  font-weight: inherit;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--accent-2);
+  text-underline-offset: 0.1em;
+}
+
+/* Structural hairline — whitespace does the separating, this just marks it. */
+.rule {
+  width: 96px;
+  height: 1px;
+  background: var(--ln-h);
+  margin: var(--spacing-48) 0 var(--spacing-64);
+}
+
+.sub {
+  font-family: var(--font-switzer);
+  font-size: var(--text-subheading);
+  line-height: var(--leading-subheading);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: -0.018em;
+  color: var(--ink-s);
+  max-width: 56ch;
+  margin: 0;
+  text-wrap: pretty;
+}
+
+/* Emphasis by colour, not by weight — the system only has 300 and 400. */
+.sub strong {
+  font-weight: var(--font-weight-regular);
+  color: var(--ink);
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-16);
+  margin-top: var(--spacing-48);
+}
+
+.btn {
+  font-family: var(--font-switzer);
+  font-size: var(--text-body-sm);
+  line-height: 1;
+  font-weight: var(--font-weight-regular);
+  letter-spacing: -0.018em;
+  border-radius: var(--radius-buttons);
+  padding: 16px var(--spacing-32);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: opacity 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.btnPrimary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.btnPrimary:hover {
+  color: var(--on-accent);
+  opacity: 0.78;
+}
+
+.btnGhost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--color-ash);
+}
+
+.btnGhost:hover {
+  color: var(--ink);
+  border-color: var(--ln-h);
+}
+
+/* ============================================================
+   STAT COUNTERS — hairline-ruled, no cards, no fills, no shadows.
+   ============================================================ */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--ln);
+  border-left: 1px solid var(--ln);
+}
+
+.stat {
+  padding: var(--spacing-24) var(--spacing-24) var(--spacing-32);
+  border-right: 1px solid var(--ln);
+  border-bottom: 1px solid var(--ln);
+  min-width: 0;
+}
+
+.statNumber {
+  display: block;
+  font-family: var(--font-switzer);
+  font-size: clamp(34px, 4.4vw, var(--text-heading));
+  line-height: var(--leading-heading);
+  font-weight: var(--font-weight-light);
+  letter-spacing: -0.023em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.statLabel {
+  font-family: var(--font-switzer);
+  font-size: var(--text-caption);
+  line-height: 1.5;
+  font-weight: var(--font-weight-regular);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-s);
+  margin: var(--spacing-16) 0 0;
+}
+
+/* ============================================================
+   TRUST BAR — logo plates.
+   Bone White plate in BOTH themes. Tested: on a dark canvas the
+   Amazon wordmark and ZEE5 disc vanish, and brightness(0)/invert(1)
+   destroys Navratna and Red Bull, which carry white knockouts.
+   The constant light plate is the only treatment that works.
+   ============================================================ */
+.trust {
+  margin-top: var(--spacing-112);
+  padding-top: var(--spacing-48);
+  border-top: 1px solid var(--ln);
+}
+
+.trustLabel {
+  display: block;
+  font-family: var(--font-switzer);
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-s);
+  margin-bottom: var(--spacing-32);
+}
+
+.logoGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--ln);
+  border: 1px solid var(--ln);
+}
+
+.plate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88px;
+  padding: var(--spacing-16);
+  border-radius: var(--radius-cards); /* 0px — editorial surfaces stay sharp */
+  background: var(--color-bone-white);
+  filter: grayscale(1);
+  opacity: 0.75;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+/* The rationed colour moment: the marks resolve on hover. */
+.plate:hover {
+  filter: none;
+  opacity: 1;
+}
+
+/* Constrain by height and centre — never scale a logo to fill its plate. */
+.plate img {
+  max-height: 34px;
+  max-width: 82%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Approved placeholder for marks with no source file. Same plate, brand
+   name in the caption style, so the grid stays even and the gap is
+   obvious and fillable later. Nothing is fabricated or traced. */
+.plateName {
+  font-family: var(--font-switzer);
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-graphite);
+  text-align: center;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-64);
+  }
+
+  .logoGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding-top: calc(var(--navh) + var(--spacing-48));
+    padding-bottom: var(--spacing-80);
+  }
+
+  .trust {
+    margin-top: var(--spacing-80);
+  }
+
+  .logoGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plate {
+    height: 76px;
+  }
+
+  .btn {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   GSAP writes inline opacity/transform on .hero-stat and on the
+   [data-stagger] children. A stylesheet !important outranks a
+   non-important inline style, so the content stays visible.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .stat,
+  .plate,
+  .logoGrid > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .plate {
+    opacity: 0.75 !important;
+  }
+
+  .plate:hover {
+    opacity: 1 !important;
+  }
+
+  .btn,
+  .plate {
+    transition: none !important;
+  }
+}
