@@ -1,24 +1,33 @@
 'use client';
 
 import { skills } from '@/lib/content';
+import styles from './Skills.module.css';
+
+// One chromatic rupture per DESIGN.md: "never more than one in a row".
+const ACCENT_INDEX = 3;
 
 export default function Skills() {
   return (
-    <section className="section section--alt" id="skills">
-      <div className="wrap">
-        <div className="section-header reveal">
-          <span className="eyebrow">Skills &amp; Expertise</span>
-          <h2>What I bring to the table.</h2>
+    <section className={styles.section} id="skills">
+      <div className={styles.wrap}>
+        <div className={`${styles.header} reveal`}>
+          <span className={styles.eyebrow}>Skills &amp; Expertise</span>
+          <h2 className={styles.title}>What I bring to the table.</h2>
         </div>
-        <div className="grid g3" data-stagger>
-          {skills.map((skill) => (
-            <div className="card skill-card" key={skill.title}>
-              <div className="skill-icon">
-                <svg viewBox="0 0 24 24"><path d={skill.icon} /></svg>
+        <div className={styles.grid} data-stagger>
+          {skills.map((skill, i) => (
+            <div
+              className={`${styles.card}${i === ACCENT_INDEX ? ` ${styles.cardAccent}` : ''}`}
+              key={skill.title}
+            >
+              <div className={styles.icon}>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d={skill.icon} /></svg>
               </div>
-              <h3>{skill.title}</h3>
-              <div className="skill-chips">
-                {skill.chips.map((chip) => <span key={chip}>{chip}</span>)}
+              <h3 className={styles.cardTitle}>{skill.title}</h3>
+              <div className={styles.chips}>
+                {skill.chips.map((chip) => (
+                  <span className={styles.chip} key={chip}>{chip}</span>
+                ))}
               </div>
             </div>
           ))}

@@ -1,20 +1,21 @@
 'use client';
 
 import { glanceItems } from '@/lib/content';
+import styles from './AtAGlance.module.css';
 
 export default function AtAGlance() {
   return (
-    <section className="section" id="glance">
-      <div className="wrap">
-        <div className="section-header reveal">
-          <span className="eyebrow">At a Glance</span>
-          <h2>Quick facts.</h2>
+    <section className={styles.section} id="glance">
+      <div className={styles.wrap}>
+        <div className={`${styles.header} reveal`}>
+          <span className={styles.eyebrow}>At a Glance</span>
+          <h2 className={styles.title}>Quick facts.</h2>
         </div>
-        <div className="glance-grid" data-stagger>
+        <div className={styles.grid} data-stagger>
           {glanceItems.map((item, i) => (
-            <div className="glance-item" key={i}>
-              <svg viewBox="0 0 24 24"><path d={item.icon} /></svg>
-              <span>{item.text}</span>
+            <div className={styles.item} key={i}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d={item.icon} /></svg>
+              <span className={styles.text}>{item.text}</span>
             </div>
           ))}
         </div>

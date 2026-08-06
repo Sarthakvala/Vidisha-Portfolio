@@ -1,0 +1,190 @@
+/* ==========================================================================
+   Skills — Creative Giants editorial system
+   Catalog entries, not boxes. 1px Ash hairline opens each entry; whitespace
+   and type scale do the rest. Exactly one chromatic rupture (Mint Wash),
+   per DESIGN.md "Chromatic Accent Card ... never more than one in a row".
+   0px radius on surfaces, 1440px on tags. No shadows anywhere.
+   ========================================================================== */
+
+.section {
+  padding-block: var(--spacing-32);
+  background: transparent;
+}
+
+.wrap {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--spacing-32);
+}
+
+/* --- Section Title Block: eyebrow + statement, separated by whitespace --- */
+.header {
+  margin-bottom: var(--spacing-32);
+}
+
+.eyebrow {
+  display: block;
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-s);
+  margin: 0 0 var(--spacing-48);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(30px, 4.4vw, 54px);
+  line-height: var(--leading-heading-sm);
+  letter-spacing: -0.023em;
+  font-weight: var(--font-weight-light);
+  color: var(--ink);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+
+/* --- Grid of six category entries --- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: var(--spacing-48);
+  row-gap: var(--spacing-48);
+}
+
+/* Entry: hairline-topped catalog row. No border box, no radius, no shadow. */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-16);
+  padding-top: var(--spacing-24);
+  border-top: 1px solid var(--glass-border);
+  border-radius: var(--radius-cards);
+  background: transparent;
+  box-shadow: none;
+  transition: border-color 0.3s var(--ease);
+}
+
+.card:hover {
+  border-top-color: var(--ln-h);
+}
+
+.icon {
+  color: var(--ink);
+  line-height: 0;
+}
+
+.icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: var(--text-subheading);
+  line-height: var(--leading-subheading);
+  letter-spacing: -0.018em;
+  font-weight: var(--font-weight-light);
+  color: var(--ink);
+  max-width: 16ch;
+  text-wrap: balance;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-8);
+  margin-top: var(--spacing-8);
+}
+
+/* Tag / Category Pill — DESIGN.md spec, verbatim.
+   8px vertical / 12px horizontal padding, 1440px radius,
+   12px weight 400 all-caps, transparent fill, 1px Ash border. */
+.chip {
+  display: inline-block;
+  padding: 8px 12px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-tags);
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-regular);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: border-color 0.3s var(--ease);
+}
+
+.card:hover .chip {
+  border-color: var(--ln-h);
+}
+
+/* --- The system's one colour-rupture moment --- */
+.cardAccent {
+  background: var(--surface-card-tint);
+  border-top: 0;
+  padding: var(--spacing-24);
+}
+
+.cardAccent:hover {
+  border-top-color: transparent;
+}
+
+.cardAccent .icon,
+.cardAccent .cardTitle {
+  color: var(--color-ink-black);
+}
+
+.cardAccent .chip {
+  color: var(--color-ink-black);
+  border-color: rgba(0, 0, 0, 0.28);
+}
+
+.cardAccent:hover .chip {
+  border-color: var(--color-ink-black);
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--spacing-32);
+    row-gap: var(--spacing-32);
+  }
+}
+
+@media (max-width: 600px) {
+  .wrap {
+    padding-inline: var(--spacing-16);
+  }
+
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .eyebrow {
+    margin-bottom: var(--spacing-24);
+  }
+}
+
+/* --- Reduced motion: content must stay visible, never opacity 0 --- */
+@media (prefers-reduced-motion: reduce) {
+  .section :global(.reveal),
+  .grid > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .card,
+  .chip {
+    transition: none;
+  }
+}

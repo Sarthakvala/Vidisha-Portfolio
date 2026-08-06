@@ -1,0 +1,130 @@
+/* ==========================================================================
+   At a Glance — Creative Giants editorial system
+   Six facts read as a dense catalog index: hairline-separated rows, icon set
+   inline at featherweight 1px stroke, text at body scale. Deliberately
+   tighter than Skills so the two grids do not rhyme. No boxes, no shadows.
+   ========================================================================== */
+
+.section {
+  padding-block: var(--spacing-32);
+  background: transparent;
+}
+
+.wrap {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--spacing-32);
+}
+
+/* --- Section Title Block --- */
+.header {
+  margin-bottom: var(--spacing-32);
+}
+
+.eyebrow {
+  display: block;
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-s);
+  margin: 0 0 var(--spacing-48);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(30px, 4.4vw, 54px);
+  line-height: var(--leading-heading-sm);
+  letter-spacing: -0.023em;
+  font-weight: var(--font-weight-light);
+  color: var(--ink);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+
+/* --- Index of facts --- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--spacing-64);
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-16);
+  padding-block: var(--spacing-24);
+  border-top: 1px solid var(--glass-border);
+  border-radius: var(--radius-cards);
+  background: transparent;
+  box-shadow: none;
+  transition: border-color 0.3s var(--ease);
+}
+
+.item:hover {
+  border-top-color: var(--ln-h);
+}
+
+.item svg {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--ink-s);
+  transition: color 0.3s var(--ease);
+}
+
+.item:hover svg {
+  color: var(--ink);
+}
+
+.text {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  letter-spacing: -0.018em;
+  font-weight: var(--font-weight-regular);
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* --- Responsive --- */
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .wrap {
+    padding-inline: var(--spacing-16);
+  }
+
+  .eyebrow {
+    margin-bottom: var(--spacing-24);
+  }
+
+  .item {
+    padding-block: var(--spacing-16);
+  }
+}
+
+/* --- Reduced motion: content must stay visible, never opacity 0 --- */
+@media (prefers-reduced-motion: reduce) {
+  .section :global(.reveal),
+  .grid > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .item,
+  .item svg {
+    transition: none;
+  }
+}

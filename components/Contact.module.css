@@ -1,0 +1,185 @@
+/* ==========================================================================
+   Contact — the page's second poster moment
+   DESIGN.md "Display Poster Headline": weight 300, -0.04em tracking,
+   line-height 1.0, never more than two lines. Left-aligned, because the
+   system aligns everything left except the hero. Interactive surfaces are
+   black or transparent only — no chromatic CTA. No shadows.
+   ========================================================================== */
+
+.section {
+  padding-block: var(--spacing-64);
+  background: transparent;
+}
+
+.wrap {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--spacing-32);
+}
+
+.poster {
+  border-top: 1px solid var(--glass-border);
+  padding-top: var(--spacing-48);
+}
+
+.eyebrow {
+  display: block;
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-s);
+  margin: 0 0 var(--spacing-48);
+}
+
+/* Display Poster Headline */
+.title {
+  margin: 0;
+  font-size: clamp(38px, 7vw, 76px);
+  line-height: var(--leading-display);
+  letter-spacing: -0.04em;
+  font-weight: var(--font-weight-light);
+  color: var(--ink);
+  max-width: 15ch;
+  text-wrap: balance;
+}
+
+.lede {
+  margin: var(--spacing-32) 0 0;
+  font-size: var(--text-subheading);
+  line-height: var(--leading-subheading);
+  letter-spacing: -0.018em;
+  font-weight: var(--font-weight-regular);
+  color: var(--ink-s);
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+
+/* --- Actions --- */
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-16);
+  margin-top: var(--spacing-48);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: var(--radius-buttons);
+  font-size: var(--text-body);
+  line-height: 1.4;
+  letter-spacing: -0.018em;
+  font-weight: var(--font-weight-regular);
+  text-decoration: none;
+  box-shadow: none;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* Primary — the only heavy element in the section */
+.btnPrimary {
+  background: var(--accent);
+  color: var(--on-accent);
+  border: 1px solid var(--accent);
+}
+
+.btnPrimary:hover {
+  background: var(--accent-h);
+  border-color: var(--accent-h);
+  color: var(--on-accent);
+}
+
+/* Ghost — transparent fill, hairline border that darkens on hover */
+.btnGhost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--glass-border);
+}
+
+.btnGhost:hover {
+  border-color: var(--ln-h);
+}
+
+/* --- Meta --- */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-16) var(--spacing-32);
+  margin-top: var(--spacing-48);
+  padding-top: var(--spacing-24);
+  border-top: 1px solid var(--glass-border);
+}
+
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-s);
+}
+
+.metaItem svg {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .section {
+    padding-block: var(--spacing-48);
+  }
+
+  .wrap {
+    padding-inline: var(--spacing-16);
+  }
+
+  .poster {
+    padding-top: var(--spacing-32);
+  }
+
+  .eyebrow {
+    margin-bottom: var(--spacing-24);
+  }
+
+  .ctas,
+  .meta {
+    margin-top: var(--spacing-32);
+  }
+
+  .btn {
+    flex: 1 1 auto;
+  }
+}
+
+/* --- Reduced motion: content must stay visible, never opacity 0 --- */
+@media (prefers-reduced-motion: reduce) {
+  .section :global(.reveal) {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .btn {
+    transition: none;
+  }
+}

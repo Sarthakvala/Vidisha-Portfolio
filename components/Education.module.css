@@ -1,0 +1,162 @@
+/* ==========================================================================
+   Education — Creative Giants editorial system
+   Two entries carried by type scale rather than by boxes: the year is set as
+   quiet all-caps metadata, the institution as a weight-300 statement. Sharp
+   corners, no shadows, no card fill. Borrowed from the type-led portfolio
+   references: the entry is a composition, not a container.
+   ========================================================================== */
+
+.section {
+  padding-block: var(--spacing-32);
+  background: transparent;
+}
+
+.wrap {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--spacing-32);
+}
+
+/* --- Section Title Block --- */
+.header {
+  margin-bottom: var(--spacing-32);
+}
+
+.eyebrow {
+  display: block;
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-s);
+  margin: 0 0 var(--spacing-48);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(30px, 4.4vw, 54px);
+  line-height: var(--leading-heading-sm);
+  letter-spacing: -0.023em;
+  font-weight: var(--font-weight-light);
+  color: var(--ink);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+
+/* --- Two entries --- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--spacing-64);
+  row-gap: var(--spacing-48);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: var(--spacing-24);
+  border-top: 1px solid var(--glass-border);
+  border-radius: var(--radius-cards);
+  background: transparent;
+  box-shadow: none;
+  transition: border-color 0.3s var(--ease);
+}
+
+.card:hover {
+  border-top-color: var(--ln-h);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-16);
+  width: 100%;
+  margin-bottom: var(--spacing-32);
+}
+
+.icon {
+  color: var(--ink);
+  line-height: 0;
+}
+
+.icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.year {
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-s);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.school {
+  margin: 0;
+  font-size: clamp(24px, 2.8vw, 34px);
+  line-height: var(--leading-heading-sm);
+  letter-spacing: -0.02em;
+  font-weight: var(--font-weight-light);
+  color: var(--ink);
+  max-width: 16ch;
+  text-wrap: balance;
+}
+
+.degree {
+  margin: var(--spacing-16) 0 0;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  letter-spacing: -0.018em;
+  font-weight: var(--font-weight-regular);
+  color: var(--ink-s);
+  max-width: 34ch;
+  text-wrap: pretty;
+}
+
+/* --- Responsive --- */
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--spacing-32);
+  }
+}
+
+@media (max-width: 600px) {
+  .wrap {
+    padding-inline: var(--spacing-16);
+  }
+
+  .eyebrow {
+    margin-bottom: var(--spacing-24);
+  }
+
+  .meta {
+    margin-bottom: var(--spacing-24);
+  }
+}
+
+/* --- Reduced motion: content must stay visible, never opacity 0 --- */
+@media (prefers-reduced-motion: reduce) {
+  .section :global(.reveal),
+  .grid > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .card {
+    transition: none;
+  }
+}
