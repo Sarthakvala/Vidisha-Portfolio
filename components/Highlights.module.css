@@ -1,0 +1,144 @@
+/* ============================================================
+   HIGHLIGHTS — oversized weight-300 numerals
+   Borrowed from Leonid Kostetskyi: the numeral IS the visual
+   unit, set at display scale with aggressive negative tracking
+   and structured by a 1px hairline instead of a card box.
+   No card chrome, no shadow, 0px radius.
+
+   The .num rules are doubled (.num.num) on purpose: the global
+   .stat-number / .stat-number--xl hooks in globals.css set
+   weight 700 and a mono stack, and those hooks must stay on the
+   element for GSAP. The compound selector wins without !important.
+   ============================================================ */
+
+.highlights {
+  position: relative;
+  padding-block: var(--spacing-32);
+  background: var(--bg);
+}
+
+.inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ---------- Section Title Block ---------- */
+.titleBlock {
+  margin-bottom: var(--spacing-48);
+}
+
+.eyebrow {
+  display: block;
+  font-family: var(--font-switzer);
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-s);
+  margin-bottom: var(--spacing-48);
+}
+
+.statement {
+  font-family: var(--font-switzer);
+  font-size: clamp(34px, 4.4vw, 54px);
+  line-height: 1.05;
+  letter-spacing: -0.023em;
+  font-weight: var(--font-weight-light);
+  color: var(--ink);
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* ---------- KPI row ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--spacing-32);
+}
+
+.kpi {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+  padding-top: var(--spacing-24);
+  border-top: 1px solid var(--ln);
+  border-radius: var(--radius-cards);
+  background: transparent;
+  box-shadow: none;
+  transition: border-color 0.3s var(--ease);
+}
+
+.kpi:hover {
+  border-top-color: var(--ln-h);
+}
+
+.num.num {
+  font-family: var(--font-switzer);
+  font-size: clamp(56px, 8vw, 112px);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-weight: var(--font-weight-light);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  display: block;
+}
+
+.meta {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.label {
+  display: block;
+  font-family: var(--font-switzer);
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.desc {
+  display: block;
+  font-family: var(--font-switzer);
+  font-size: var(--text-body-sm);
+  line-height: 1.55;
+  letter-spacing: var(--tracking-body-sm);
+  font-weight: var(--font-weight-regular);
+  color: var(--ink-s);
+  text-wrap: pretty;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-32) var(--spacing-24);
+  }
+}
+
+@media (max-width: 640px) {
+  .inner {
+    padding: 0 24px;
+  }
+  .eyebrow {
+    margin-bottom: var(--spacing-32);
+  }
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .num.num {
+    font-size: clamp(56px, 18vw, 84px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kpi {
+    transition: none;
+  }
+}

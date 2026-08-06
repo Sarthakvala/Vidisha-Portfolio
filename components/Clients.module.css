@@ -1,0 +1,155 @@
+/* ============================================================
+   CLIENTS — the logo wall
+   Creative Giants (DESIGN.md) primary: cream canvas, hairlines,
+   0px surfaces, rationed colour. Grid structure borrowed from
+   basement.studio's "Client Logo Tile": a rigid mesh of collapsed
+   1px cells with the marks centred inside — an inventory, not a
+   row of cards. Adapted to bone plates + Ash hairlines.
+
+   LOGO POLICY (locked, do not redesign):
+   every mark sits on a Bone White #fffef7 plate in BOTH themes,
+   0px radius, grayscale at rest, full colour on hover, height-
+   constrained and centred — never scaled to fill the plate.
+   ============================================================ */
+
+.header {
+  margin-bottom: var(--spacing-64);
+  max-width: 62ch;
+}
+.eyebrow {
+  display: block;
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-s);
+  margin-bottom: var(--spacing-24);
+}
+.title {
+  font-family: var(--font-switzer);
+  font-size: clamp(34px, 5.2vw, 54px);
+  line-height: var(--leading-heading);
+  letter-spacing: -0.023em;
+  font-weight: var(--font-weight-light);
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+/* --- Collapsed hairline mesh --- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--ln);
+  border-left: 1px solid var(--ln);
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing-16);
+  padding: var(--spacing-24);
+  border-right: 1px solid var(--ln);
+  border-bottom: 1px solid var(--ln);
+  list-style: none;
+}
+
+/* --- The bone plate: constant in light AND dark --- */
+.plate {
+  display: grid;
+  place-items: center;
+  height: 92px;
+  padding: 0 var(--spacing-24);
+  background: var(--color-bone-white);
+  border-radius: var(--radius-cards); /* 0px — editorial surfaces stay sharp */
+  overflow: hidden;
+}
+
+.mark {
+  display: block;
+  max-height: 44px;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.75;
+  transition: filter 0.4s var(--ease), opacity 0.4s var(--ease);
+}
+
+/* Name plate for brands with no source mark — identical plate size,
+   caption style, Graphite. The gap stays obvious and fillable. */
+.plateName {
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+  color: var(--color-graphite); /* fixed: the plate is bone in both themes */
+  opacity: 0.75;
+  transition: opacity 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+/* --- Hover: the rationed colour moment --- */
+.cell:hover .mark,
+.cell:focus-within .mark {
+  filter: none;
+  opacity: 1;
+}
+.cell:hover .plateName,
+.cell:focus-within .plateName {
+  opacity: 1;
+  color: var(--color-ink-black);
+}
+
+.cat {
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-s);
+  transition: color 0.4s var(--ease);
+}
+.cell:hover .cat,
+.cell:focus-within .cat {
+  color: var(--ink);
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .plate {
+    height: 80px;
+    padding: 0 var(--spacing-16);
+  }
+  .mark {
+    max-height: 36px;
+  }
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cell {
+    padding: var(--spacing-16);
+  }
+}
+
+/* --- Reduced motion: stagger must never leave the wall invisible --- */
+@media (prefers-reduced-motion: reduce) {
+  .grid > .cell {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .mark,
+  .plateName,
+  .cat {
+    transition: none !important;
+  }
+}

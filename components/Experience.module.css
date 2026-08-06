@@ -1,0 +1,183 @@
+/* ============================================================
+   EXPERIENCE — "Career ledger"
+   Creative Giants (DESIGN.md) primary. Structural detail borrowed
+   from Leonid Kostetskyi: hairline rules instead of container
+   chrome, interactivity signalled by line + ink shifts, never fills.
+   No gradient spine, no shadows, 0px on surfaces, 1440px on pills.
+   ============================================================ */
+
+/* --- Section opener (DESIGN.md "Section Title Block") --- */
+.header {
+  margin-bottom: var(--spacing-64);
+  max-width: 62ch;
+}
+.eyebrow {
+  display: block;
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-s);
+  margin-bottom: var(--spacing-24);
+}
+.title {
+  font-family: var(--font-switzer);
+  font-size: clamp(34px, 5.2vw, 54px);
+  line-height: var(--leading-heading);
+  letter-spacing: -0.023em;
+  font-weight: var(--font-weight-light);
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+/* --- The ledger --- */
+.ledger {
+  border-top: 1px solid var(--ln);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 3.5rem 13rem minmax(0, 1fr);
+  column-gap: var(--spacing-32);
+  align-items: start;
+  padding: var(--spacing-48) 0;
+  border-bottom: 1px solid var(--ln);
+  transition: border-color 0.4s var(--ease);
+}
+.row:hover {
+  border-bottom-color: var(--ln-h);
+}
+
+/* Single rationed chromatic hit: the current role carries a magenta rule. */
+.rowCurrent {
+  border-left: 2px solid var(--color-magenta-bloom);
+  padding-left: var(--spacing-24);
+}
+
+.index {
+  font-family: var(--font-switzer);
+  font-size: var(--text-heading-sm);
+  line-height: 1;
+  font-weight: var(--font-weight-light);
+  letter-spacing: -0.02em;
+  color: var(--ink-f);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.4s var(--ease);
+}
+.row:hover .index {
+  color: var(--ink);
+}
+
+.date {
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-s);
+  padding-top: 6px;
+  white-space: normal;
+}
+
+.body {
+  min-width: 0;
+}
+
+.role {
+  font-family: var(--font-switzer);
+  font-size: clamp(22px, 2.6vw, 34px);
+  line-height: var(--leading-heading-sm);
+  letter-spacing: -0.02em;
+  font-weight: var(--font-weight-light);
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.company {
+  margin-top: var(--spacing-8);
+  font-size: var(--text-subheading);
+  line-height: var(--leading-subheading);
+  letter-spacing: -0.018em;
+  font-weight: var(--font-weight-regular);
+  color: var(--ink-s);
+}
+
+.desc {
+  margin: var(--spacing-24) 0 0;
+  max-width: 60ch;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  letter-spacing: -0.018em;
+  font-weight: var(--font-weight-regular);
+  color: var(--ink-s);
+  text-wrap: pretty;
+}
+
+/* --- Tag pills (DESIGN.md: 1440px radius, transparent, 1px hairline) --- */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-8);
+  margin-top: var(--spacing-24);
+}
+.tag {
+  display: inline-block;
+  padding: 8px 12px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-tags);
+  background: transparent;
+  font-size: var(--text-caption);
+  line-height: 1.2;
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  transition: border-color 0.3s var(--ease);
+}
+.row:hover .tag {
+  border-color: var(--ln-h);
+}
+
+/* --- Responsive --- */
+@media (max-width: 960px) {
+  .row {
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    row-gap: var(--spacing-16);
+    padding: var(--spacing-32) 0;
+  }
+  .date {
+    grid-column: 2;
+    padding-top: 0;
+    order: -1;
+  }
+  .body {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 560px) {
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .index {
+    display: none;
+  }
+  .date,
+  .body {
+    grid-column: 1;
+  }
+}
+
+/* --- Reduced motion: GSAP stagger must never leave rows invisible --- */
+@media (prefers-reduced-motion: reduce) {
+  .ledger > .row {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .row,
+  .index,
+  .tag {
+    transition: none !important;
+  }
+}

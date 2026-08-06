@@ -1,22 +1,30 @@
 'use client';
 
 import { kpis } from '@/lib/content';
+import styles from './Highlights.module.css';
 
 export default function Highlights() {
   return (
-    <section className="section section--alt" id="highlights">
-      <div className="wrap">
-        <div className="section-header reveal">
-          <span className="eyebrow">Key Highlights</span>
-          <h2>Numbers that tell the story.</h2>
+    <section className={styles.highlights} id="highlights">
+      <div className={styles.inner}>
+        <div className={`${styles.titleBlock} reveal`}>
+          <span className={styles.eyebrow}>Key Highlights</span>
+          <h2 className={styles.statement}>Numbers that tell the story.</h2>
         </div>
-        <div className="kpi-grid" data-stagger>
+
+        <div className={styles.grid} data-stagger>
           {kpis.map((kpi) => (
-            <div className="card kpi" key={kpi.label}>
-              <span className="stat-number stat-number--xl" data-count={kpi.value} data-suffix={kpi.suffix}>0</span>
-              <p>
-                <span className="kpi__label">{kpi.label}</span>
-                {kpi.desc}
+            <div className={styles.kpi} key={kpi.label}>
+              <span
+                className={`stat-number stat-number--xl ${styles.num}`}
+                data-count={kpi.value}
+                data-suffix={kpi.suffix}
+              >
+                0
+              </span>
+              <p className={styles.meta}>
+                <span className={styles.label}>{kpi.label}</span>
+                <span className={styles.desc}>{kpi.desc}</span>
               </p>
             </div>
           ))}

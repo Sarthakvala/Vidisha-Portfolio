@@ -18,9 +18,18 @@ Case Studies → Skills → Testimonials → Education → At a Glance → Conta
 
 ## Design direction
 
-Source of truth: `C:\Users\Sarthak\Downloads\DESIGN.md` (Creative Giants — oversized editorial
-poster on cream paper). Read it in full. It defines the tokens, type scale, radii, spacing and
-the do/don't list. Follow it.
+**Source of truth: the token files in `design/reference/`** — `tokens.json` (W3C design-token
+format), `variables.css` (plain custom properties) and `theme.css` (Tailwind v4 `@theme`). All
+three are the same Creative Giants extraction from refero and carry identical values; pick
+whichever format fits what you are writing.
+
+`design/reference/DESIGN.md.superseded` is the earlier prose write-up of the same extraction.
+Its **token values are still correct and match the files above**, but the client has asked that
+its prose be ignored — the do/don't list, component recipes and imagery rules are no longer
+binding constraints. Treat it as background, not as law. Where prose and tokens disagree,
+tokens win.
+
+More reference files are expected from the client. Until they arrive, build to the tokens.
 
 Reference sites the client picked: creativegiants.art, portrait.so, destroytoday.com.
 

@@ -1,31 +1,43 @@
 'use client';
 
 import { awards, awardGallery } from '@/lib/content';
+import styles from './Awards.module.css';
+
+/* DESIGN.md: "never more than one [chromatic accent card] in a row".
+   Index 1 carries the row's single tint; every other card sits on canvas. */
+const TINTED_INDEX = 1;
 
 export default function Awards() {
   return (
-    <section className="section" id="awards">
-      <div className="wrap">
-        <div className="section-header reveal">
-          <span className="eyebrow">Awards &amp; Achievements</span>
-          <h2>Recognized globally.</h2>
+    <section className={styles.awards} id="awards">
+      <div className={styles.inner}>
+        <div className={`${styles.titleBlock} reveal`}>
+          <span className={styles.eyebrow}>Awards &amp; Achievements</span>
+          <h2 className={styles.statement}>Recognized globally.</h2>
         </div>
-        <div className="awards-grid" data-stagger>
-          {awards.map((award) => (
-            <div className="card award-card" key={award.title}>
-              <div className="award-badge">
-                <svg viewBox="0 0 24 24"><path d={award.icon} /></svg>
+
+        <div className={styles.grid} data-stagger>
+          {awards.map((award, i) => (
+            <article
+              className={`${styles.card}${i === TINTED_INDEX ? ` ${styles.cardTint}` : ''}`}
+              key={award.title}
+            >
+              <div className={styles.badge}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d={award.icon} />
+                </svg>
               </div>
-              <h3>{award.title}</h3>
-              <p>{award.desc}</p>
-            </div>
+              <h3 className={styles.cardTitle}>{award.title}</h3>
+              <p className={styles.cardDesc}>{award.desc}</p>
+            </article>
           ))}
         </div>
-        <div className="award-gallery" data-stagger>
+
+        <div className={styles.gallery} data-stagger>
           {awardGallery.map((img) => (
-            <div className="award-img" key={img}>
+            <figure className={styles.galleryItem} key={img}>
               <img src={`/assets/${img}`} alt="Award moment" loading="lazy" width={400} height={300} />
-            </div>
+            </figure>
           ))}
         </div>
       </div>
