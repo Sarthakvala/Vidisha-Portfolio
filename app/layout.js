@@ -1,25 +1,15 @@
-import { Space_Grotesk, Inter, JetBrains_Mono } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.css';
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-space',
-  weight: ['400', '500', '600', '700'],
-});
-
+/* DESIGN.md is a single-family system built on Switzer (weights 300/400).
+   Switzer is not on Google Fonts; its documented substitute is Inter.
+   One family, loaded once — globals.css aliases --font-space and
+   --font-mono onto --font-inter so existing selectors keep working. */
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
-  weight: ['400', '500', '600', '700'],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-mono',
-  weight: ['400', '500', '600', '700'],
+  weight: ['300', '400'],
 });
 
 export const metadata = {
@@ -36,7 +26,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      className={inter.variable}
       suppressHydrationWarning
     >
       <head>
@@ -72,9 +62,10 @@ export default function RootLayout({ children }) {
                 try {
                   var t = localStorage.getItem('theme');
                   if (t) { document.documentElement.setAttribute('data-theme', t); }
-                  else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-                    document.documentElement.setAttribute('data-theme', 'light');
+                  else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
                   }
+                  else { document.documentElement.setAttribute('data-theme', 'light'); }
                 } catch(e) {}
               })();
             `,

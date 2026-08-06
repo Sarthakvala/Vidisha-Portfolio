@@ -1,42 +1,145 @@
 /* ============================================================
-   VIDISHA TODKAR — BOLD EDITORIAL PORTFOLIO
-   Design System & Global Styles
+   VIDISHA TODKAR — PORTFOLIO
+   Token layer: "Creative Giants" (DESIGN.md)
+   oversized editorial poster on cream paper — light by default
+
+   Two groups live here:
+   1. The DESIGN.md system tokens (--color-*, --text-*, --spacing-*,
+      --radius-*, --surface-*). These are the source of truth.
+   2. Legacy alias tokens (--bg, --ink, --accent, --glass, --ln, --r,
+      --sh-*) that the component selectors further down still
+      reference. They are remapped onto group 1 so nothing breaks.
    ============================================================ */
 
-/* --- DESIGN TOKENS (Dark-first) --- */
+/* --- DESIGN TOKENS (Light-first — DESIGN.md Quick Start) --- */
 :root {
-  /* Canvas */
-  --bg: #0a0a0f;
-  --bg2: #0f0f16;
-  --bg-card: rgba(255,255,255,0.03);
+  /* Colors */
+  --color-bone-white: #fffef7;
+  --color-ink-black: #000000;
+  --color-graphite: #666666;
+  --color-ash: #aaaaaa;
+  --color-charcoal-scale: #4d4c4a;
+  --color-magenta-bloom: #8a0467;
+  --color-forest-teal: #03624c;
+  --color-powder-blue: #a5c8eb;
+  --color-candy-pink: #ffacea;
+  --color-mint-wash: #a5ebd6;
+  --color-navy-ink: #101731;
+  --color-signal-yellow: #ffd001;
 
-  /* Typography */
-  --ink: #f0ede6;
-  --ink-s: #8a8a9a;
-  --ink-f: #5a5a6e;
+  /* Typography — Font Families
+     Switzer is not on Google Fonts; Inter (300/400) is its documented
+     substitute and is what layout.js loads as --font-inter. The two
+     legacy family slots are aliased onto it so existing rules resolve. */
+  --font-switzer: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-space: var(--font-inter);
+  --font-mono: var(--font-inter);
 
-  /* Accent — Amber/Gold (single accent system) */
-  --accent: #F5A623;
-  --accent-h: #FFB940;
-  --accent-w: rgba(245,166,35,0.08);
-  --accent-glow: rgba(245,166,35,0.15);
+  /* Typography — Scale */
+  --text-caption: 12px;
+  --leading-caption: 1.43;
+  --tracking-caption: -0.018px;
+  --text-body-sm: 14px;
+  --leading-body-sm: 1.43;
+  --tracking-body-sm: -0.018px;
+  --text-body: 16px;
+  --leading-body: 1.4;
+  --tracking-body: -0.018px;
+  --text-subheading: 20px;
+  --leading-subheading: 1.4;
+  --tracking-subheading: -0.018px;
+  --text-heading-sm: 34px;
+  --leading-heading-sm: 1.25;
+  --tracking-heading-sm: -0.02px;
+  --text-heading: 54px;
+  --leading-heading: 1;
+  --tracking-heading: -0.023px;
+  --text-display: 84px;
+  --leading-display: 1;
+  --tracking-display: -0.04px;
 
-  /* Surfaces & Borders */
-  --glass: rgba(255,255,255,0.04);
-  --glass-border: rgba(255,255,255,0.08);
-  --glass-hover: rgba(255,255,255,0.07);
-  --ln: rgba(255,255,255,0.06);
-  --ln-h: rgba(255,255,255,0.12);
+  /* Typography — Weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
 
-  /* Shadows */
-  --sh-s: 0 1px 4px rgba(0,0,0,.4);
-  --sh-m: 0 8px 32px rgba(0,0,0,.4);
-  --sh-l: 0 20px 60px rgba(0,0,0,.5);
-  --sh-glow: 0 0 40px rgba(245,166,35,0.08);
+  /* Spacing */
+  --spacing-unit: 8px;
+  --spacing-8: 8px;
+  --spacing-16: 16px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-48: 48px;
+  --spacing-64: 64px;
+  --spacing-80: 80px;
+  --spacing-112: 112px;
 
-  /* Spacing & Layout */
-  --r: 12px;
-  --r-sm: 8px;
+  /* Layout */
+  --section-gap: 64px;
+  --card-padding: 24px;
+  --element-gap: 8px;
+
+  /* Border Radius */
+  --radius-full: 1440px;
+  --radius-full-2: 1600px;
+  --radius-tags: 1440px;
+  --radius-cards: 0px;
+  --radius-pills: 1440px;
+  --radius-images: 0px;
+  --radius-buttons: 1440px;
+
+  /* Surfaces */
+  --surface-canvas: #fffef7;
+  --surface-card-tint: #a5ebd6;
+  --surface-card-tint-pink: #ffacea;
+  --surface-card-tint-blue: #a5c8eb;
+  --surface-signal-pop: #ffd001;
+  --surface-inverted-field: #101731;
+
+  /* ---------- Legacy aliases (light) ---------- */
+
+  /* Canvas — Bone White is the ONLY page background (DESIGN.md).
+     --bg2 is deliberately identical: no alternating bands. */
+  --bg: var(--color-bone-white);
+  --bg2: var(--color-bone-white);
+  --bg-card: transparent;
+
+  /* Type colors */
+  --ink: var(--color-ink-black);
+  --ink-s: var(--color-graphite);
+  --ink-f: var(--color-ash);
+
+  /* Interactive ink. DESIGN.md has no chromatic CTA — all interactive
+     surfaces are black or transparent, so --accent is Ink Black and
+     --on-accent is the Bone White that sits on top of it. Chromatic
+     hits are rationed through --accent-2 / --accent-3. */
+  --accent: var(--color-ink-black);
+  --accent-h: var(--color-navy-ink);
+  --on-accent: var(--color-bone-white);
+  --accent-w: rgba(0,0,0,0.05);
+  --accent-glow: rgba(0,0,0,0.06);
+  --accent-2: var(--color-magenta-bloom);
+  --accent-3: var(--color-forest-teal);
+
+  /* Surfaces & hairlines — no glass, no fills */
+  --glass: transparent;
+  --glass-border: var(--color-ash);
+  --glass-hover: rgba(0,0,0,0.03);
+  --ln: rgba(0,0,0,0.12);
+  --ln-h: var(--color-ink-black);
+  --nav-bg: rgba(255,254,247,0.9);
+
+  /* Shadows — the system has none */
+  --sh-s: none;
+  --sh-m: none;
+  --sh-l: none;
+  --sh-glow: none;
+
+  /* Radii — cards and images are sharp, interactive elements are pills */
+  --r: var(--radius-cards);
+  --r-sm: var(--radius-cards);
+  --r-pill: var(--radius-pills);
+
+  /* Layout */
   --maxw: 1200px;
   --navh: 72px;
 
@@ -46,36 +149,45 @@
   --ease-spring: cubic-bezier(.175,.885,.32,1.275);
 
   /* Grain */
-  --grain-opacity: 0.03;
+  --grain-opacity: 0.015;
 }
 
-/* --- LIGHT MODE --- */
-[data-theme="light"] {
-  --bg: #fafafa;
-  --bg2: #f2f2f5;
-  --bg-card: rgba(0,0,0,0.02);
+/* --- DARK MODE ---
+   DESIGN.md is a light-only system, so dark is a derivation, not an
+   invention: same type scale, spacing, radii and zero-shadow rule.
+   Only the neutral ramp inverts — canvas becomes the system's own
+   Inverted Field (Navy Ink), text becomes Bone White. The chromatic
+   accent palette is unchanged. */
+[data-theme="dark"] {
+  --bg: var(--color-navy-ink);
+  --bg2: var(--color-navy-ink);
+  --bg-card: transparent;
 
-  --ink: #1a1a2e;
-  --ink-s: #5a5a6e;
-  --ink-f: #8a8a9a;
+  --ink: var(--color-bone-white);
+  --ink-s: rgba(255,254,247,0.68);
+  --ink-f: rgba(255,254,247,0.46);
 
-  --accent: #D48B1A;
-  --accent-h: #C07A10;
-  --accent-w: rgba(212,139,26,0.08);
-  --accent-glow: rgba(212,139,26,0.1);
+  --accent: var(--color-bone-white);
+  --accent-h: var(--color-powder-blue);
+  --on-accent: var(--color-navy-ink);
+  --accent-w: rgba(255,254,247,0.07);
+  --accent-glow: rgba(255,254,247,0.08);
 
-  --glass: rgba(0,0,0,0.03);
-  --glass-border: rgba(0,0,0,0.08);
-  --glass-hover: rgba(0,0,0,0.05);
-  --ln: rgba(0,0,0,0.06);
-  --ln-h: rgba(0,0,0,0.12);
+  --glass: transparent;
+  --glass-border: rgba(255,254,247,0.22);
+  --glass-hover: rgba(255,254,247,0.05);
+  --ln: rgba(255,254,247,0.16);
+  --ln-h: var(--color-bone-white);
+  --nav-bg: rgba(16,23,49,0.9);
 
-  --sh-s: 0 1px 4px rgba(0,0,0,.06);
-  --sh-m: 0 8px 32px rgba(0,0,0,.08);
-  --sh-l: 0 20px 60px rgba(0,0,0,.1);
-  --sh-glow: 0 0 40px rgba(212,139,26,0.06);
+  --sh-s: none;
+  --sh-m: none;
+  --sh-l: none;
+  --sh-glow: none;
 
-  --grain-opacity: 0.015;
+  --surface-canvas: var(--color-navy-ink);
+
+  --grain-opacity: 0.03;
 }
 
 /* --- RESET --- */
@@ -196,7 +308,7 @@ body::before {
   font-weight: 600;
   font-size: 14px;
   padding: 14px 28px;
-  border-radius: var(--r-sm);
+  border-radius: var(--r-pill);
   border: 1px solid transparent;
   cursor: pointer;
   transition: all 0.25s var(--ease);
@@ -207,12 +319,12 @@ body::before {
 }
 .btn--primary {
   background: var(--accent);
-  color: #0a0a0f;
+  color: var(--on-accent);
   font-weight: 700;
 }
 .btn--primary:hover {
   background: var(--accent-h);
-  color: #0a0a0f;
+  color: var(--on-accent);
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(245,166,35,0.3);
 }
@@ -287,13 +399,10 @@ body::before {
   border-bottom: 1px solid transparent;
 }
 .nav.scrolled {
-  background: rgba(10,10,15,0.85);
+  background: var(--nav-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom-color: var(--glass-border);
-}
-[data-theme="light"] .nav.scrolled {
-  background: rgba(250,250,250,0.9);
 }
 .nav__inner {
   max-width: var(--maxw);
@@ -1187,7 +1296,7 @@ body::before {
 .carousel-btn:hover {
   background: var(--accent);
   border-color: var(--accent);
-  color: #0a0a0f;
+  color: var(--on-accent);
 }
 .carousel-btn svg { width: 18px; height: 18px; }
 .carousel-dots { display: flex; gap: 8px; }
@@ -1349,7 +1458,7 @@ body::before {
   height: 44px;
   border-radius: 50%;
   background: var(--accent);
-  color: #0a0a0f;
+  color: var(--on-accent);
   border: none;
   cursor: pointer;
   display: flex;
@@ -1374,7 +1483,7 @@ body::before {
 .btt svg {
   width: 18px;
   height: 18px;
-  stroke: #0a0a0f;
+  stroke: var(--on-accent);
   stroke-width: 2.5;
   fill: none;
 }
