@@ -1,15 +1,23 @@
-import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 
-/* DESIGN.md is a single-family system built on Switzer (weights 300/400).
-   Switzer is not on Google Fonts; its documented substitute is Inter.
-   One family, loaded once — globals.css aliases --font-space and
-   --font-mono onto --font-inter so existing selectors keep working. */
-const inter = Inter({
-  subsets: ['latin'],
+/* Single-family system on Switzer (300/400), named explicitly by the token
+   files in design/reference/. Switzer isn't on Google Fonts, so it was
+   previously substituted with Inter — but the direction leans on weight 300
+   holding hairline strokes at 64–84px, which Inter 300 renders heavier. The
+   real face is self-hosted here rather than pulled from the Fontshare CDN:
+   no third-party request on the critical path, and no CSP exception.
+
+   Kept on --font-inter because globals.css already aliases --font-space and
+   --font-mono onto it; renaming would mean touching every module. */
+const switzer = localFont({
+  src: [
+    { path: './fonts/Switzer-300.woff2', weight: '300', style: 'normal' },
+    { path: './fonts/Switzer-400.woff2', weight: '400', style: 'normal' },
+  ],
   display: 'swap',
   variable: '--font-inter',
-  weight: ['300', '400'],
+  fallback: ['ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
 });
 
 export const metadata = {
@@ -26,7 +34,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={inter.variable}
+      className={switzer.variable}
       suppressHydrationWarning
     >
       <head>
