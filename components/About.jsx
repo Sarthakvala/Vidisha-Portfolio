@@ -24,12 +24,17 @@ export default function About() {
           </div>
 
           <figure className={`${styles.photo} reveal`}>
-            <img
-              src="/assets/profile.jpeg"
-              alt="Vidisha Todkar — Senior Brand Strategist"
-              width={200}
-              height={250}
-            />
+            {/* The frame is what makes the drift safe: it clips, and the
+                image inside is overscaled just enough that a few pixels
+                of parallax never expose an edge. */}
+            <div className={styles.photoFrame} data-drift>
+              <img
+                src="/assets/profile.jpeg"
+                alt="Vidisha Todkar — Senior Brand Strategist"
+                width={200}
+                height={250}
+              />
+            </div>
           </figure>
 
           <div className={`${styles.process} reveal`}>

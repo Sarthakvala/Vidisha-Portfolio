@@ -97,6 +97,23 @@
   background: transparent;
 }
 
+/* Clipping frame for the scroll drift. The aspect ratio is fixed so the
+   figure's height cannot change as the image moves inside it — without
+   this the parallax would push page layout around on every scroll. */
+.photoFrame {
+  overflow: hidden;
+  border-radius: var(--radius-images);
+  aspect-ratio: 4 / 5;
+}
+
+.photoFrame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Overscaled so ±10px of drift stays inside the frame. */
+  transform: scale(1.12);
+}
+
 .photo img {
   display: block;
   width: 100%;

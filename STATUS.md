@@ -86,6 +86,25 @@ No test suite exists.
   failure in About, Experience and Testimonials) to `#737373`; five hardcoded Navbar
   shadows removed.
 
+- **Motion extended past the hero.** The signature typographic reveal was
+  hero-only and the poster wipe Contact-only; every section in between shared
+  one generic fade-and-lift, which is why the middle of the page read flat next
+  to its own opening. `lib/animations.js` now builds the poster mask for every
+  section heading at runtime and hands the animation to the existing pattern,
+  so there is one implementation rather than two. Section captions wipe in from
+  the left — drawing their own hairline underline at the same pressure the
+  standalone rules use — and the supporting line lands after the heading, so a
+  header reads as a sequence instead of a simultaneous fade. The dead
+  `.section-header` drift (a global class no section carries) was repointed at
+  the About portrait, which now has a clipping frame so the parallax cannot
+  push page layout around.
+
+  **Lottie was considered for the headings and rejected.** It bakes colour into
+  the JSON, so a themed site needs either two files per heading or runtime path
+  mutation; it would also replace live Switzer with vector paths, costing
+  selectable, searchable and screen-reader-readable text. The mask reveal keeps
+  live text, inherits `currentColor`, and themes for free.
+
 ## In progress
 
 Nothing in flight.
