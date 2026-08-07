@@ -1,91 +1,94 @@
 /* ============================================================
-   HERO — DESIGN.md "Display Poster Headline"
-   84px / weight 300 / -0.04em / never above 2 lines.
-   No shadows. Editorial surfaces sharp. Accent rationed to one hit.
+   HERO — "the ledger of proof"
+
+   Primary reference: Odin's Crow — hairline rules as the structural
+   device, 0px radius, no shadows, hierarchy from scale and negative
+   tracking alone.
+   Borrowed: Christopher Ireland's split hero (type | contained
+   photograph, divided by a hairline); Gustavo Faria's 1px-divided
+   ledger column and single-chromatic-note portrait plate.
+
+   Rules to hold if you edit this file:
+     - no box-shadow, anywhere
+     - no border-radius except --radius-buttons on the two pills
+     - one colour only (the portrait plate); everything else is
+       ink / graphite / hairline on bone
    ============================================================ */
 
 .hero {
-  padding-top: calc(var(--navh) + var(--spacing-80));
-  padding-bottom: var(--spacing-112);
+  padding-top: calc(var(--navh, 80px) + var(--spacing-80));
+  padding-bottom: var(--spacing-80);
   background: var(--bg);
+  color: var(--ink);
 }
 
 .container {
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 0 clamp(20px, 4vw, var(--spacing-32));
+  padding: 0 var(--spacing-32);
 }
 
-/* Sub-paragraph + CTAs on the left, stat counters on the right. The
-   headline and its rule sit above this, at the full page measure. */
-.grid {
+/* ---------- Split: type | portrait ---------- */
+.split {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: clamp(var(--spacing-48), 6vw, var(--spacing-80));
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) 460px;
+  gap: var(--spacing-64);
+  align-items: end;
+  padding-bottom: var(--spacing-64);
 }
 
-/* --- Meta Eyebrow --- */
+/* Query container for the headline. The poster must hold exactly two
+   lines, but its width is set by the grid column, not the viewport —
+   so a vw-based clamp cannot know when it will wrap, and at desktop it
+   was overflowing into four lines. Sizing against the column itself is
+   the only thing that holds at every width. */
+.lede {
+  min-width: 0;
+  container-type: inline-size;
+}
+
 .eyebrow {
-  display: block;
-  font-family: var(--font-switzer);
+  display: inline-block;
   font-size: var(--text-caption);
-  line-height: var(--leading-caption);
   font-weight: var(--font-weight-regular);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-s);
+  padding-bottom: var(--spacing-8);
+  border-bottom: 1px solid var(--ln);
   margin-bottom: var(--spacing-32);
 }
 
-/* --- Display Poster Headline ---
-   Class specificity beats the global `h1,h2…{font-weight:700}` rule. */
+/* The poster. Weight 300 at this scale is the entire visual thesis —
+   it is what keeps a 132px headline a hairline drawing rather than a
+   slab. Do not raise the weight to "fix" perceived thinness. */
+/* 14.6cqw is derived, not guessed: the longest line ("I don't sell
+   decks.") measures 6.595em in Switzer 300, so it fits its column at up
+   to 100/6.595 = 15.16cqw. 14.6 leaves a safety margin for font
+   fallback and sub-pixel rounding. Re-measure if the copy ever changes
+   — this number belongs to that specific string. */
 .headline {
-  font-family: var(--font-switzer);
-  font-size: clamp(42px, 8vw, var(--text-display));
-  line-height: var(--leading-display);
+  font-size: clamp(38px, 14.6cqw, 132px);
   font-weight: var(--font-weight-light);
-  letter-spacing: -0.04em;
+  line-height: 0.94;
+  letter-spacing: -0.045em;
   color: var(--ink);
-  margin: 0;
-}
-
-/* The system's one rationed chromatic moment above the fold: a 1px
-   accent stroke, used in its sanctioned border role — the words
-   themselves stay Ink Black at weight 300. No colour word-swap. */
-.headlineAccent {
-  font-weight: inherit;
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-decoration-color: var(--accent-2);
-  text-underline-offset: 0.1em;
-}
-
-/* Structural hairline — whitespace does the separating, this just marks it.
-   It also draws in (scaleX) once the headline has landed, so the origin
-   is pinned left here rather than left to GSAP's default centre. */
-.rule {
-  width: 96px;
-  height: 1px;
-  background: var(--ln-h);
-  margin: var(--spacing-48) 0 var(--spacing-64);
-  transform-origin: left center;
+  margin: 0 0 var(--spacing-32);
+  text-wrap: balance;
 }
 
 .sub {
-  font-family: var(--font-switzer);
   font-size: var(--text-subheading);
-  line-height: var(--leading-subheading);
-  font-weight: var(--font-weight-regular);
-  letter-spacing: -0.018em;
+  line-height: 1.5;
+  letter-spacing: var(--tracking-subheading);
   color: var(--ink-s);
-  max-width: 56ch;
-  margin: 0;
+  max-width: 46ch;
+  margin: 0 0 var(--spacing-32);
   text-wrap: pretty;
 }
 
-/* Emphasis by colour, not by weight — the system only has 300 and 400. */
+/* Emphasis is weight, not colour. The accent budget is spent on the
+   portrait plate and nowhere else. */
 .sub strong {
   font-weight: var(--font-weight-regular);
   color: var(--ink);
@@ -95,152 +98,217 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-16);
-  margin-top: var(--spacing-48);
+  align-items: center;
 }
 
 .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-switzer);
   font-size: var(--text-body-sm);
-  line-height: 1;
   font-weight: var(--font-weight-regular);
-  letter-spacing: -0.018em;
+  letter-spacing: var(--tracking-body-sm);
+  line-height: 1;
+  padding: 15px var(--spacing-32);
   border-radius: var(--radius-buttons);
-  padding: 16px var(--spacing-32);
-  text-decoration: none;
   border: 1px solid transparent;
-  transition: opacity 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  text-decoration: none;
+  box-shadow: none;
+  transition: background var(--motion-base) var(--ease),
+              color var(--motion-base) var(--ease),
+              border-color var(--motion-base) var(--ease);
 }
 
 .btnPrimary {
-  background: var(--accent);
+  background: var(--ink);
   color: var(--on-accent);
+  border-color: var(--ink);
 }
-
+/* Inversion, not a lift. The system has no elevation to move through. */
 .btnPrimary:hover {
-  color: var(--on-accent);
-  opacity: 0.78;
+  background: transparent;
+  color: var(--ink);
 }
 
 .btnGhost {
   background: transparent;
   color: var(--ink);
-  border-color: var(--color-ash);
+  border-color: var(--ln);
 }
+.btnGhost:hover { border-color: var(--ink); }
 
-.btnGhost:hover {
-  color: var(--ink);
-  border-color: var(--ln-h);
-}
-
-/* ============================================================
-   STAT COUNTERS — hairline-ruled, no cards, no fills, no shadows.
-   ============================================================ */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  border-top: 1px solid var(--ln);
+/* ---------- Portrait ----------
+   Christopher Ireland's rule: the photograph is contained and curated,
+   never full-bleed, and a hairline does the dividing. */
+.portrait {
+  margin: 0;
+  min-width: 0;
+  padding-left: var(--spacing-64);
   border-left: 1px solid var(--ln);
 }
 
-.stat {
-  padding: var(--spacing-24) var(--spacing-24) var(--spacing-32);
-  border-right: 1px solid var(--ln);
-  border-bottom: 1px solid var(--ln);
-  min-width: 0;
+/* The one colour in the hero. Flat plate, sharp corners — Gustavo
+   Faria's blush-tone role, mapped onto the client's approved powder
+   blue. Not a frame, not a gradient, not a polaroid. */
+.plate {
+  background: var(--color-powder-blue);
+  border-radius: var(--radius-images);
+  aspect-ratio: 548 / 544;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
-.statNumber {
-  display: block;
-  font-family: var(--font-switzer);
-  font-size: clamp(34px, 4.4vw, var(--text-heading));
-  line-height: var(--leading-heading);
-  font-weight: var(--font-weight-light);
-  letter-spacing: -0.023em;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
+.portraitImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
 }
 
-.statLabel {
-  font-family: var(--font-switzer);
+.portraitCaption {
+  margin-top: var(--spacing-16);
+  padding-top: var(--spacing-8);
+  border-top: 1px solid var(--ln);
   font-size: var(--text-caption);
-  line-height: 1.5;
-  font-weight: var(--font-weight-regular);
-  letter-spacing: 0.05em;
+  line-height: var(--leading-caption);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-s);
-  margin: var(--spacing-16) 0 0;
 }
 
-/* ============================================================
-   TRUST BAR — logo plates.
-   Bone White plate in BOTH themes. Tested: on a dark canvas the
-   Amazon wordmark and ZEE5 disc vanish, and brightness(0)/invert(1)
-   destroys Navratna and Red Bull, which carry white knockouts.
-   The constant light plate is the only treatment that works.
-   ============================================================ */
+/* ---------- The full-measure rule ----------
+   Animated by lib/animations.js via the sibling .rule-draw class. Held
+   at full width at rest so a JS failure leaves a finished-looking page. */
+.rule {
+  height: 1px;
+  width: 100%;
+  background: var(--ln);
+  transform-origin: left center;
+}
+
+/* ---------- Ledger ----------
+   Four verified proof rows. On desktop they read as ledger columns
+   divided by hairlines; below 900px they stack into rows divided the
+   same way. Deliberately dense against the airy type above — that
+   tension is the borrowed Gustavo Faria move. */
+.ledger {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+  padding: var(--spacing-48) var(--spacing-32) var(--spacing-48) 0;
+  border-right: 1px solid var(--ln);
+}
+
+.row:first-child { padding-left: 0; }
+.row:last-child { border-right: 0; padding-right: 0; }
+
+/* tabular-nums matters: the count-up rewrites this text every frame,
+   and proportional digits make the whole ledger shiver while it runs. */
+.rowValue {
+  /* Sized to stay roughly 1.55x below the headline at every width. The
+     headline is column-bound (see .headline) and tops out near 95px, so
+     a 76px ceiling here left only a 1.27x step and the ledger started
+     competing with the poster for first glance. The poster has to win. */
+  font-size: clamp(30px, 4.3vw, 62px);
+  font-weight: var(--font-weight-light);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+.rowLabel {
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-top: var(--spacing-8);
+}
+
+.rowDesc {
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+  letter-spacing: var(--tracking-body-sm);
+  color: var(--ink-s);
+  max-width: 24ch;
+  text-wrap: pretty;
+}
+
+/* ---------- Trust bar ---------- */
 .trust {
-  margin-top: var(--spacing-112);
-  padding-top: var(--spacing-48);
+  padding-top: var(--spacing-64);
   border-top: 1px solid var(--ln);
 }
 
 .trustLabel {
-  display: block;
-  font-family: var(--font-switzer);
   font-size: var(--text-caption);
-  line-height: var(--leading-caption);
   font-weight: var(--font-weight-regular);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-s);
-  margin-bottom: var(--spacing-32);
+  margin: 0 0 var(--spacing-24);
 }
 
 .logoGrid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1px;
-  background: var(--ln);
-  border: 1px solid var(--ln);
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.plate {
+/* Bone White plate in BOTH themes — settled by testing, see Hero.jsx.
+   The fixed height reserves the box, so the varying intrinsic logo
+   widths can never shift layout. In light mode the plate matches the
+   canvas, so the hairline is what makes the grid legible. */
+.plateItem {
+  background: var(--color-bone-white);
+  border: 1px solid var(--ln);
+  border-radius: var(--radius-cards);
+  height: 96px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 88px;
   padding: var(--spacing-16);
-  border-radius: var(--radius-cards); /* 0px — editorial surfaces stay sharp */
-  background: var(--color-bone-white);
+  transition: border-color var(--motion-base) var(--ease);
+}
+
+.plateItem img {
+  max-height: 34px;
+  max-width: 100%;
+  width: auto;
+  object-fit: contain;
+  /* Grayscale at rest; colour on hover is the one rationed colour
+     moment in the trust bar. */
   filter: grayscale(1);
   opacity: 0.75;
-  transition: filter 0.3s ease, opacity 0.3s ease;
+  transition: filter var(--motion-base) var(--ease),
+              opacity var(--motion-base) var(--ease);
 }
 
-/* The rationed colour moment: the marks resolve on hover. */
-.plate:hover {
-  filter: none;
-  opacity: 1;
-}
+.plateItem:hover { border-color: var(--ln-h); }
+.plateItem:hover img { filter: none; opacity: 1; }
 
-/* Constrain by height and centre — never scale a logo to fill its plate. */
-.plate img {
-  max-height: 34px;
-  max-width: 82%;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-}
-
-/* Approved placeholder for marks with no source file. Same plate, brand
-   name in the caption style, so the grid stays even and the gap is
-   obvious and fillable later. Nothing is fabricated or traced. */
+/* Approved name-plate placeholders for the marks with no source file.
+   Same plate, caption style — the gap stays obvious and fillable. */
 .plateName {
-  font-family: var(--font-switzer);
   font-size: var(--text-caption);
-  line-height: var(--leading-caption);
   font-weight: var(--font-weight-regular);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-graphite);
   text-align: center;
@@ -249,54 +317,59 @@
 /* ============================================================
    RESPONSIVE
    ============================================================ */
-@media (max-width: 1024px) {
-  .grid {
+@media (max-width: 1100px) {
+  .split { grid-template-columns: minmax(0, 1fr) 380px; gap: var(--spacing-48); }
+  .portrait { padding-left: var(--spacing-48); }
+}
+
+@media (max-width: 900px) {
+  .split {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--spacing-64);
+    gap: var(--spacing-48);
+    align-items: start;
   }
 
-  .logoGrid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* The hairline moves from the column edge to above the portrait —
+     same device, rotated, rather than dropped on small screens. */
+  .portrait {
+    padding-left: 0;
+    padding-top: var(--spacing-48);
+    border-left: 0;
+    border-top: 1px solid var(--ln);
+    max-width: 460px;
   }
+
+  .ledger { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .row { padding: var(--spacing-32) var(--spacing-24) var(--spacing-32) 0; }
+  .row:nth-child(even) { border-right: 0; padding-right: 0; }
+  .row:nth-child(-n + 2) { border-bottom: 1px solid var(--ln); }
+  .row:nth-child(odd) { padding-left: 0; }
 }
 
 @media (max-width: 640px) {
   .hero {
-    padding-top: calc(var(--navh) + var(--spacing-48));
-    padding-bottom: var(--spacing-80);
+    padding-top: calc(var(--navh, 80px) + var(--spacing-48));
+    padding-bottom: var(--spacing-64);
   }
 
-  .trust {
-    margin-top: var(--spacing-80);
-  }
+  .container { padding: 0 var(--spacing-24); }
 
-  .logoGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  .headline { letter-spacing: -0.035em; }
 
-  .plate {
-    height: 76px;
-  }
+  .ctas { gap: var(--spacing-8); }
+  .btn { padding: 14px var(--spacing-24); }
 
-  .btn {
-    flex: 1 1 auto;
-    text-align: center;
+  /* Full ledger stack: one proof per row, hairline between. */
+  .ledger { grid-template-columns: minmax(0, 1fr); }
+  .row {
+    padding: var(--spacing-24) 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--ln);
   }
-}
+  .row:last-child { border-bottom: 0; }
+  .rowDesc { max-width: none; }
 
-/* ============================================================
-   REDUCED MOTION
-   This block used to force opacity/transform back on .hero-stat and the
-   [data-stagger] children, then immediately walk the plates back down to
-   their resting 0.75 because that blanket override had flattened them.
-   Both halves are gone: lib/animations.js gates on
-   prefers-reduced-motion before it creates a tween, so no inline
-   from-state is ever written and the resting styles above simply apply.
-   Only the CSS hover transitions still need stopping.
-   ============================================================ */
-@media (prefers-reduced-motion: reduce) {
-  .btn,
-  .plate {
-    transition: none;
-  }
+  .logoGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .plateItem { height: 80px; }
 }

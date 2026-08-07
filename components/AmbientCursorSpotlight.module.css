@@ -1,0 +1,35 @@
+.spotlight {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 450px;
+  height: 450px;
+  margin-top: -225px;
+  margin-left: -225px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  background: radial-gradient(
+    circle,
+    var(--spotlight-color, var(--cat-coral)) 0%,
+    rgba(255, 87, 87, 0.15) 35%,
+    transparent 70%
+  );
+  opacity: 0.25;
+  mix-blend-mode: screen;
+  transition: opacity 0.3s ease, background 0.4s ease;
+  will-change: transform;
+}
+
+[data-theme="light"] .spotlight {
+  mix-blend-mode: multiply;
+  opacity: 0.18;
+}
+
+.spotlight.active {
+  opacity: 0.45;
+  width: 550px;
+  height: 550px;
+  margin-top: -275px;
+  margin-left: -275px;
+}

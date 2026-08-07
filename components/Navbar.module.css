@@ -1,42 +1,59 @@
 /* ============================================================
-   NAVBAR — DESIGN.md "Header Lockup" + "Pill Menu Button"
-   Near-invisible chrome: the cream page IS the header background.
-   No shadows. Cards/images 0px. Interactive elements 1440px.
+   NAVBAR — Jo Mendes Floating Glass Pill Header System
    ============================================================ */
 
 .header {
   position: fixed;
-  inset: 0 0 auto 0;
-  z-index: 100;
-  background: transparent;
-  border-bottom: 1px solid transparent;
-  transition: background 0.3s ease, border-color 0.3s ease;
-}
-
-/* Once scrolled, the chrome earns just enough surface to stay legible
-   over content — a token-tinted canvas plus one hairline. Never a bar. */
-.headerScrolled {
-  background: var(--nav-bg);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border-bottom-color: var(--ln);
+  top: 16px;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
 }
 
 .inner {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  min-height: var(--navh);
-  padding: var(--spacing-16) clamp(20px, 4vw, var(--spacing-32));
+  pointer-events: auto;
+  width: auto;
+  max-width: 1080px;
+  min-height: 54px;
+  padding: 6px 12px 6px 16px;
   display: flex;
   align-items: center;
   gap: var(--spacing-24);
+  background: rgba(16, 23, 49, 0.82);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 9999px;
+  box-shadow: none; /* zero-shadow rule: depth comes from line work */
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* --- Lockup: 32px circular mark + all-caps meta eyebrow --- */
+[data-theme="light"] .inner {
+  background: rgba(255, 254, 247, 0.88);
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: none; /* zero-shadow rule: depth comes from line work */
+}
+
+.headerScrolled .inner {
+  background: rgba(11, 13, 20, 0.95);
+  border-color: var(--cat-coral);
+  box-shadow: none; /* zero-shadow rule: depth comes from line work */
+}
+
+[data-theme="light"].headerScrolled .inner {
+  background: rgba(255, 254, 247, 0.98);
+  border-color: var(--color-ink-black);
+}
+
+/* --- Lockup: circular avatar + brand name --- */
 .lockup {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-16);
+  gap: 12px;
   flex-shrink: 0;
   color: var(--ink);
   text-decoration: none;
@@ -45,10 +62,10 @@
 .mark {
   width: 32px;
   height: 32px;
-  border-radius: var(--radius-full); /* the one circular element in the system */
+  border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
-  background: var(--color-bone-white);
+  border: 1px solid var(--cat-coral);
 }
 
 .mark img {
@@ -60,10 +77,10 @@
 
 .lockupName {
   font-family: var(--font-switzer);
-  font-size: var(--text-caption);
-  line-height: var(--leading-caption);
-  font-weight: var(--font-weight-regular);
-  letter-spacing: 0.06em;
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ink);
   white-space: nowrap;
@@ -73,84 +90,73 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: clamp(14px, 1.8vw, var(--spacing-24));
-  margin-left: auto;
+  gap: clamp(10px, 1.4vw, 20px);
 }
 
 .link {
   position: relative;
   font-family: var(--font-switzer);
-  font-size: var(--text-caption);
-  line-height: var(--leading-caption);
-  font-weight: var(--font-weight-regular);
-  letter-spacing: 0.06em;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ink-s);
   text-decoration: none;
-  padding: 4px 0;
+  padding: 8px 12px;
+  border-radius: 9999px;
   white-space: nowrap;
-  transition: color 0.3s ease;
-}
-
-/* Borrowed from Cori Corinne: state is a 1px baseline rule, not a fill.
-   No pills, no chips, no background change on a nav link. */
-.link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
+  transition: all 0.25s ease;
 }
 
 .link:hover,
 .link:focus-visible {
   color: var(--ink);
+  background: rgba(255, 255, 255, 0.08);
 }
 
-.link:hover::after,
-.link:focus-visible::after {
-  transform: scaleX(1);
+[data-theme="light"] .link:hover,
+[data-theme="light"] .link:focus-visible {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .linkActive {
-  color: var(--ink);
+  color: #ffffff;
+  background: var(--cat-coral) !important;
+  font-weight: 600;
 }
 
-.linkActive::after {
-  transform: scaleX(1);
-}
-
-/* --- Right cluster --- */
+/* --- Actions cluster --- */
 .actions {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: 8px;
   flex-shrink: 0;
 }
 
-/* Carousel-Arrow-Control treatment, reused for icon buttons:
-   32px circle, 1px Ash border, transparent fill, border darkens on hover. */
 .iconBtn {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: grid;
   place-items: center;
-  border: 1px solid var(--color-ash);
-  border-radius: var(--radius-full);
-  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
   color: var(--ink);
   cursor: pointer;
   padding: 0;
-  transition: border-color 0.3s ease;
+  transition: all 0.25s ease;
+}
+
+[data-theme="light"] .iconBtn {
+  border-color: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.03);
 }
 
 .iconBtn:hover {
-  border-color: var(--ln-h);
+  border-color: var(--cat-coral);
+  color: var(--cat-coral);
+  transform: scale(1.05);
 }
 
 .iconBtn svg {
@@ -159,59 +165,55 @@
   display: block;
 }
 
-/* Pill Menu Button — the only heavy element on the cream canvas. */
 .cta {
   font-family: var(--font-switzer);
-  font-size: var(--text-caption);
+  font-size: 12px;
   line-height: 1;
-  font-weight: var(--font-weight-regular);
-  letter-spacing: 0.06em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--on-accent);
-  background: var(--accent);
-  border-radius: var(--radius-buttons);
-  padding: 12px var(--spacing-24);
+  color: #000000;
+  background: var(--cat-yellow);
+  border-radius: 9999px;
+  padding: 10px 18px;
   text-decoration: none;
   white-space: nowrap;
-  transition: opacity 0.3s ease;
+  transition: all 0.25s ease;
+  box-shadow: none; /* zero-shadow rule: depth comes from line work */
 }
 
 .cta:hover {
-  color: var(--on-accent);
-  opacity: 0.78;
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: none; /* zero-shadow rule: depth comes from line work */
 }
 
-/* Burger keeps the pill language rather than floating naked bars. */
 .burger {
   display: none;
-  width: 44px;
-  height: 32px;
-  border: 1px solid var(--color-ash);
-  border-radius: var(--radius-buttons);
-  background: transparent;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
   cursor: pointer;
   padding: 0;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  transition: border-color 0.3s ease;
-}
-
-.burger:hover {
-  border-color: var(--ln-h);
+  transition: all 0.25s ease;
 }
 
 .burger span {
   display: block;
-  width: 16px;
-  height: 1px;
+  width: 14px;
+  height: 2px;
   background: var(--ink);
+  border-radius: 1px;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .burgerOpen span:nth-child(1) {
-  transform: translateY(5px) rotate(45deg);
+  transform: translateY(6px) rotate(45deg);
 }
 
 .burgerOpen span:nth-child(2) {
@@ -219,12 +221,9 @@
 }
 
 .burgerOpen span:nth-child(3) {
-  transform: translateY(-5px) rotate(-45deg);
+  transform: translateY(-6px) rotate(-45deg);
 }
 
-/* ============================================================
-   MOBILE — the menu becomes a poster, not a dropdown.
-   ============================================================ */
 @media (max-width: 960px) {
   .burger {
     display: flex;
@@ -232,19 +231,28 @@
 
   .nav {
     position: fixed;
-    inset: var(--navh) 0 0 0;
-    margin-left: 0;
+    top: 76px;
+    left: 16px;
+    right: 16px;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: var(--spacing-16);
-    padding: var(--spacing-48) clamp(20px, 6vw, var(--spacing-48));
-    background: var(--bg);
-    overflow-y: auto;
+    align-items: stretch;
+    gap: 8px;
+    padding: 16px;
+    background: rgba(16, 23, 49, 0.95);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-8px);
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    pointer-events: auto;
+  }
+
+  [data-theme="light"] .nav {
+    background: rgba(255, 254, 247, 0.98);
+    border-color: rgba(0, 0, 0, 0.15);
   }
 
   .navOpen {
@@ -253,47 +261,19 @@
     transform: none;
   }
 
-  /* Poster scale on mobile: heading-sm, weight 300, negative tracking. */
   .link {
-    font-size: var(--text-heading-sm);
-    line-height: var(--leading-heading-sm);
-    font-weight: var(--font-weight-light);
-    letter-spacing: -0.02em;
-    text-transform: none;
-    color: var(--ink);
-  }
-
-  .link::after {
-    height: 1px;
-  }
-
-  .cta {
-    padding: 10px var(--spacing-16);
-  }
-}
-
-@media (max-width: 520px) {
-  .lockupName {
-    display: none;
-  }
-
-  .link {
-    font-size: 26px;
-  }
-
-  .cta {
-    padding: 9px 14px;
-    letter-spacing: 0.04em;
+    font-size: 14px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    text-align: center;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .header,
+  .inner,
   .link,
-  .link::after,
   .iconBtn,
-  .burger,
-  .burger span,
   .cta,
   .nav {
     transition: none !important;

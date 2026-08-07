@@ -38,23 +38,37 @@
 }
 
 .case {
-  padding: var(--spacing-48) 0;
+  padding: var(--spacing-48) var(--spacing-24);
   border-bottom: 1px solid var(--ln);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  margin-bottom: var(--spacing-16);
+}
+
+.case:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--cat-coral);
+  transform: translateY(-2px);
+}
+
+[data-theme="light"] .case:hover {
+  background: rgba(0, 0, 0, 0.02);
 }
 
 /* --- Head --- */
 .tag {
   display: inline-block;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius-tags);
+  border-radius: 9999px;
   background: transparent;
   font-size: var(--text-caption);
   line-height: 1.2;
-  font-weight: var(--font-weight-regular);
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--ink);
+  transition: all 0.25s ease;
 }
 
 .caseTitle {

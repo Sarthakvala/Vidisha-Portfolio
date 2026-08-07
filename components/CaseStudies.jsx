@@ -88,17 +88,20 @@ export default function CaseStudies() {
         </div>
 
         <div className={styles.list}>
-          {caseStudies.map((cs) => {
+          {caseStudies.map((cs, idx) => {
             const isOpen = Boolean(expandedCS[cs.id]);
+            const colors = ['var(--cat-coral)', 'var(--cat-yellow)', 'var(--cat-cyan)', 'var(--cat-purple)'];
+            const catColor = colors[idx % colors.length];
+
             return (
-              <article className={`${styles.case} reveal`} key={cs.id}>
-                <span className={styles.tag}>{cs.tag}</span>
+              <article className={`${styles.case} reveal`} key={cs.id} data-category-color={catColor}>
+                <span className={styles.tag} data-category-color={catColor}>{cs.tag}</span>
                 <h3 className={styles.caseTitle}>{cs.title}</h3>
                 <p className={styles.tagline}>{cs.tagline}</p>
 
                 <div className={styles.metrics}>
                   {cs.metrics.map((m) => (
-                    <div className={styles.metric} key={m.label}>
+                    <div className={styles.metric} key={m.label} data-category-color={catColor}>
                       <span className={styles.metricValue}>{m.value}</span>
                       <span className={styles.metricLabel}>{m.label}</span>
                     </div>

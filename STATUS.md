@@ -13,13 +13,26 @@ job is to stop the design from underselling it.
 
 ## Current state
 
-Design direction changed on 2026-08-06. The previous direction (`implementation_plan.md`
-— dark-first, amber/gold, Space Grotesk, glassmorphism) is **superseded**. The client
-picked an editorial cream direction instead, referencing creativegiants.art,
-portrait.so and destroytoday.com, specified in `C:\Users\Sarthak\Downloads\DESIGN.md`.
+Design direction was refined on 2026-08-08 into **"the minimalist ledger"** — a
+reference-locked synthesis, approved by the client after an audit found the working
+tree had drifted off contract. The token *values* are unchanged (still the Creative
+Giants extraction in `design/reference/`); what changed is the structural idea the
+tokens hang on.
 
-That plan explicitly rejected "safe warm cream", so it is now historical and should
-not be followed. `REDESIGN-BRIEF.md` is the live contract.
+Reference lock, primary: **Odin's Crow** (odins-crow.com) — hairline rules as the
+structural device instead of cards, 0px radius, zero shadows, one typeface carrying
+all hierarchy through scale and negative tracking, no accent colour in the primary UI.
+Borrowed, bounded: **Gustavo Faria** (gustavo.work) for the 1px-divided ledger column
+and the portrait-as-single-chromatic-note plate; **Christopher Ireland**
+(christopherireland.net) for the split hero — display type one side, *contained*
+photograph the other, divided by a hairline.
+
+Rationale: the proof on this page is numerical and adversarial (15% share taken off
+Visa and Mastercard, 200K+ midwives across 91% of India). A ledger is how you present
+numbers you want believed; cards make hard numbers look like marketing.
+
+`implementation_plan.md` (dark-first, amber/gold, glassmorphism) remains **superseded**.
+`REDESIGN-BRIEF.md` is still the live content and logo contract.
 
 Stack: Next.js 16.3 App Router, React 19, JavaScript, GSAP 3.15 + Lenis 1.3.
 No test suite exists.
@@ -46,22 +59,46 @@ No test suite exists.
   default theme flipped from dark to light. Copy carried over verbatim and verified
   by sliding-window diff against the previous `page.js`. Build green.
 
+- **Caught and reverted an off-contract drift (2026-08-08).** An uncommitted pass had
+  replaced the hero and gutted `globals.css` (1,948 → 269 lines) with a "Geniestudio"
+  system: `#ebf5ff` canvas, 32px radii, shadows, an `#0069e0` accent palette, weight-500
+  display. It also **invented ten brand strategy narratives and metrics** — "+42%
+  Advocacy" (Netflix), "4× Consideration" (Amazon), "2.4× Mother Trust" (Complan) and
+  others that appear in no commit and no source file, attached to a real person's
+  professional record. All of it cut. The original files are backed up outside the repo.
+
+- **Hero rebuilt to the ledger lock.** Split composition: poster headline (Switzer 300,
+  clamp to 132px, -0.045em) + verified subhead + two pills on the left; portrait on a
+  flat powder-blue plate on the right, divided by a hairline. Below the full-measure
+  rule, the four verified KPIs from `lib/content.js` run as ledger rows with 1px
+  dividers — no cards. Trust bar restored with the 7 real marks + the 3 approved
+  name-plate placeholders. Zero shadows, zero non-pill radii in the section.
+
+- **Motion system reconnected.** The hero had lost every GSAP hook (`data-poster-lines`,
+  `.rule-draw`, `.hero-stat`, `.stat-number`, `data-count`, `data-stagger`) — 13 are back.
+  The `--motion-*` tokens `lib/animations.js` reads had been deleted from `globals.css`,
+  so it was silently running on hardcoded fallbacks; restored.
+
+- **Cross-cutting defects fixed.** Added the missing `<main>` landmark; heading order now
+  h1 → h2 (was h1 → h3); the 10 keyboard-unreachable `<div onClick>` tiles and their
+  untrapped modal are gone; portrait moved to `next/image` (was a 582 KB PNG upscaled
+  from 548px to 704px); `--ink-f` remapped off Ash `#aaaaaa` (2.3:1, a WCAG AA text
+  failure in About, Experience and Testimonials) to `#737373`; five hardcoded Navbar
+  shadows removed.
+
 ## In progress
 
-Four agents redesigning sections in parallel, each owning its own components and
-CSS Modules so they cannot collide on shared files:
-
-1. Navbar, Hero (+ trust logo bar), Footer
-2. About, WorkThatWon, Awards, Highlights
-3. Experience, Clients (16-brand logo grid), CaseStudies
-4. Skills, Testimonials, Education, AtAGlance, Contact
+Nothing in flight.
 
 ## Next steps
 
-- Dead-CSS sweep of `app/globals.css` once the modules land — the old global section
-  selectors stop matching but still ship.
-- Verify in-browser: both themes, responsive breakpoints, GSAP reveals firing,
-  reduced-motion, keyboard nav.
+- Bring the remaining 14 sections onto the ledger system. They currently inherit the
+  corrected tokens through the compatibility aliases in `globals.css`, so they are
+  legible and on-palette, but they are still composed as cards.
+- Fix the known defects still open in siblings: `.cs-expand__body` hardcoded
+  `maxHeight: 1000px`, missing `aria-expanded` on case-study accordions, and the
+  testimonial carousel's unpausable 6s auto-advance (WCAG 2.2.2 failure).
+- Add a `favicon.ico` — currently the only 404 on the page.
 - Decide the three missing logos (below).
 
 ## Blockers / decisions
@@ -77,4 +114,11 @@ CSS Modules so they cannot collide on shared files:
   infrastructure at all. Not addressed in this pass.
 - **Content is a real professional record.** Metrics, awards, dates and testimonials
   are load-bearing claims about a real person and must never be reworded or invented
-  by a design pass.
+  by a design pass. This is no longer hypothetical — see the 2026-08-08 entry above.
+  Any new metric or brand outcome must trace to `lib/content.js` or a commit.
+
+- **Animation playback is unverified.** The rest state, the reduced-motion path and the
+  hook wiring were all verified directly. Playback was not: the harness browser pane
+  runs hidden (`document.hidden === true`, 0 rAF frames/sec), so GSAP writes its
+  from-states and the ticker never advances. Confirm the reveals visually in a real
+  browser before sign-off.
