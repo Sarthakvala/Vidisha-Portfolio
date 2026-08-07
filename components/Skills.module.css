@@ -175,14 +175,10 @@
   }
 }
 
-/* --- Reduced motion: content must stay visible, never opacity 0 --- */
+/* --- Reduced motion ---
+   No opacity rescue needed: lib/animations.js never writes a from-state
+   when reduced motion is requested. Only the hover transitions remain. */
 @media (prefers-reduced-motion: reduce) {
-  .section :global(.reveal),
-  .grid > * {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
   .card,
   .chip {
     transition: none;

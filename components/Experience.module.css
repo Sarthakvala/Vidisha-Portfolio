@@ -169,12 +169,10 @@
   }
 }
 
-/* --- Reduced motion: GSAP stagger must never leave rows invisible --- */
+/* --- Reduced motion ---
+   The ledger stagger is gated in lib/animations.js, so rows are never
+   left invisible and need no override. */
 @media (prefers-reduced-motion: reduce) {
-  .ledger > .row {
-    opacity: 1 !important;
-    transform: none !important;
-  }
   .row,
   .index,
   .tag {

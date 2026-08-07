@@ -6,9 +6,15 @@ export default function Contact() {
   return (
     <section className={styles.section} id="contact">
       <div className={styles.wrap}>
-        <div className={`${styles.poster} reveal`}>
+        {/* Staggered rather than revealed as one block: the headline inside
+            carries its own wipe, and a parent fade would play it out from
+            underneath an opacity ramp it does not need. */}
+        <div className={styles.poster} data-stagger>
           <span className={styles.eyebrow}>Contact</span>
-          <h2 className={styles.title}>Let&apos;s build something that moves the market.</h2>
+          {/* The page's second poster moment. It wraps to a variable number
+              of lines, so it wipes on as a block rather than per line —
+              same gesture as the hero headline, no measuring required. */}
+          <h2 className={`${styles.title} poster-wipe`}>Let&apos;s build something that moves the market.</h2>
           <p className={styles.lede}>
             Open to remote-first Brand &amp; Marketing Strategy leadership roles across MENA, APAC, and UK/EU.
           </p>

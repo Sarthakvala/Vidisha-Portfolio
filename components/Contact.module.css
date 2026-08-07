@@ -172,13 +172,10 @@
   }
 }
 
-/* --- Reduced motion: content must stay visible, never opacity 0 --- */
+/* --- Reduced motion ---
+   The poster wipe and the stagger are both gated in lib/animations.js,
+   so the headline is never clipped and nothing needs restoring here. */
 @media (prefers-reduced-motion: reduce) {
-  .section :global(.reveal) {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
   .btn {
     transition: none;
   }

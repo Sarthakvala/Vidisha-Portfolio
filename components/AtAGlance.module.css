@@ -115,14 +115,12 @@
   }
 }
 
-/* --- Reduced motion: content must stay visible, never opacity 0 --- */
+/* --- Reduced motion ---
+   The opacity/transform rescue that used to live here is gone:
+   lib/animations.js gates on prefers-reduced-motion before it creates a
+   tween, so no from-state is ever written and there is nothing to undo.
+   Only the CSS hover transitions still need stopping. */
 @media (prefers-reduced-motion: reduce) {
-  .section :global(.reveal),
-  .grid > * {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
   .item,
   .item svg {
     transition: none;

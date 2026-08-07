@@ -24,10 +24,16 @@ three are the same Creative Giants extraction from refero and carry identical va
 whichever format fits what you are writing.
 
 `design/reference/DESIGN.md.superseded` is the earlier prose write-up of the same extraction.
-Its **token values are still correct and match the files above**, but the client has asked that
-its prose be ignored — the do/don't list, component recipes and imagery rules are no longer
-binding constraints. Treat it as background, not as law. Where prose and tokens disagree,
-tokens win.
+Its **token values are still correct and match the files above**. Where prose and tokens
+disagree, tokens win.
+
+Its prose was briefly set aside, then reinstated by the client **for motion and animation
+work specifically** — the component recipes, interaction notes and do/don't list are fair
+game when deciding how something should move. Note that neither the prose nor the Refero
+style reference actually specifies a motion system: the extraction's motion section is empty
+and its single interaction note is "No background change on hover — only the border darkens
+to Ink Black." So motion has to be *designed* in the spirit of the system, not copied from it.
+The restraint is the instruction: this is an editorial poster, not a demo reel.
 
 More reference files are expected from the client. Until they arrive, build to the tokens.
 

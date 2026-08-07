@@ -51,11 +51,60 @@
    Breaks the 1200px measure and runs edge to edge.
    This is the section's one rupture moment. */
 .band {
+  position: relative;
   width: 100%;
   margin: 0;
   border-radius: var(--radius-images);
   background: var(--color-navy-ink);
   line-height: 0;
+}
+
+/* ---------- Sound control ----------
+   Sits on the film, clear of the native control bar along the bottom.
+   Pill radius per DESIGN.md (1440px belongs to interactive elements),
+   transparent fill, hairline border — the same black-pill logic as the
+   rest of the system, inverted because it sits on the Navy Ink band.
+   No shadow. */
+.sound {
+  position: absolute;
+  top: var(--spacing-16);
+  right: var(--spacing-16);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 254, 247, 0.5);
+  border-radius: var(--radius-pills);
+  background: transparent;
+  color: var(--color-bone-white);
+  font-family: var(--font-switzer);
+  font-size: var(--text-caption);
+  line-height: 1.2;
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  /* Only the hairline and the ink move — DESIGN.md's one interaction
+     note is that hover darkens the border, never floods a fill. */
+  transition:
+    border-color var(--motion-base) var(--motion-ease-ink),
+    color var(--motion-base) var(--motion-ease-ink);
+}
+
+.sound:hover,
+.sound:focus-visible {
+  border-color: var(--color-bone-white);
+}
+
+.sound svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .band video {
@@ -173,10 +222,16 @@
   .eyebrow {
     margin-bottom: var(--spacing-32);
   }
+  .sound {
+    top: var(--spacing-8);
+    right: var(--spacing-8);
+    padding: 6px 10px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tags span {
+  .tags span,
+  .sound {
     transition: none;
   }
 }

@@ -62,12 +62,15 @@
   text-underline-offset: 0.1em;
 }
 
-/* Structural hairline — whitespace does the separating, this just marks it. */
+/* Structural hairline — whitespace does the separating, this just marks it.
+   It also draws in (scaleX) once the headline has landed, so the origin
+   is pinned left here rather than left to GSAP's default centre. */
 .rule {
   width: 96px;
   height: 1px;
   background: var(--ln-h);
   margin: var(--spacing-48) 0 var(--spacing-64);
+  transform-origin: left center;
 }
 
 .sub {
@@ -283,28 +286,17 @@
 
 /* ============================================================
    REDUCED MOTION
-   GSAP writes inline opacity/transform on .hero-stat and on the
-   [data-stagger] children. A stylesheet !important outranks a
-   non-important inline style, so the content stays visible.
+   This block used to force opacity/transform back on .hero-stat and the
+   [data-stagger] children, then immediately walk the plates back down to
+   their resting 0.75 because that blanket override had flattened them.
+   Both halves are gone: lib/animations.js gates on
+   prefers-reduced-motion before it creates a tween, so no inline
+   from-state is ever written and the resting styles above simply apply.
+   Only the CSS hover transitions still need stopping.
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  .stat,
-  .plate,
-  .logoGrid > * {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  .plate {
-    opacity: 0.75 !important;
-  }
-
-  .plate:hover {
-    opacity: 1 !important;
-  }
-
   .btn,
   .plate {
-    transition: none !important;
+    transition: none;
   }
 }

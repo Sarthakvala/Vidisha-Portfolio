@@ -225,13 +225,10 @@
   }
 }
 
-/* --- Reduced motion: content visible, no sliding --- */
+/* --- Reduced motion ---
+   The reveal from-state is never written when reduced motion is on, so
+   only the carousel's own transitions need stopping here. */
 @media (prefers-reduced-motion: reduce) {
-  .section :global(.reveal) {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
   .track,
   .arrow,
   .dot {

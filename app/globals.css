@@ -143,10 +143,43 @@
   --maxw: 1200px;
   --navh: 72px;
 
-  /* Easing */
-  --ease: cubic-bezier(.25,.46,.45,.94);
-  --ease-out: cubic-bezier(0,0,0.2,1);
-  --ease-spring: cubic-bezier(.175,.885,.32,1.275);
+  /* ---------- MOTION ----------
+     DESIGN.md specifies no motion system, so this is designed in the
+     spirit of the poster rather than transcribed from it.
+
+     Durations follow the editorial ladder of the closest reference that
+     does document motion (Waka Waka): fast feedback in the 0.3-0.4s
+     band, 0.6s for a significant state change, transitions used
+     sparingly so the page still reads as a static printed sheet. The
+     0.9s poster tier is reserved for the two display-type moments — the
+     hero headline and the Contact headline — and nothing else.
+
+     Every curve decelerates into rest. There is deliberately no spring,
+     elastic or overshoot token: weight-300 hairline type at 84px has to
+     look like it settles onto the page, and ink does not bounce. */
+  --motion-fast: 0.18s;    /* hover, press, focus — micro feedback */
+  --motion-base: 0.32s;    /* state change: tags, plates, controls */
+  --motion-slow: 0.6s;     /* block reveals, significant state change */
+  --motion-poster: 0.9s;   /* display-type mask reveals only */
+
+  --motion-ease-ink: cubic-bezier(0.22, 1, 0.36, 1);   /* settles, never overshoots */
+  --motion-ease-rule: cubic-bezier(0.65, 0, 0.35, 1);  /* hairlines draw at even pressure */
+  --motion-ease-exit: cubic-bezier(0.4, 0, 1, 1);      /* leaves faster than it arrives */
+
+  --motion-stagger: 0.06s;         /* grid and list children */
+  --motion-stagger-poster: 0.09s;  /* display lines — slower, more deliberate */
+
+  /* Travel distance for a settle. Deliberately short: a 40px throw on
+     84px display type reads as a template reveal; 12px reads as weight
+     coming to rest. */
+  --motion-lift: 12px;
+
+  /* Legacy easing aliases, remapped onto the motion system rather than
+     deleted, so the component transitions already referencing them
+     inherit the new curve family without editing every declaration.
+     --ease-spring is gone: this system has no overshoot. */
+  --ease: var(--motion-ease-ink);
+  --ease-out: var(--motion-ease-ink);
 
   /* Grain */
   --grain-opacity: 0.015;
@@ -223,14 +256,13 @@ button { font-family: inherit; }
   border-radius: 3px;
 }
 
-/* Reduced motion */
+/* Reduced motion.
+   The opacity/transform rescue that used to live here is gone: no
+   stylesheet sets a from-state any more, and lib/animations.js returns
+   before creating a single tween when reduced motion is requested, so
+   there is nothing left to override. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .reveal, [data-animate] {
-    transition: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
 }
 
 /* --- GRAIN TEXTURE OVERLAY --- */
@@ -373,15 +405,37 @@ body::before {
 .stat-number--lg { font-size: clamp(36px, 4vw, 48px); }
 .stat-number--md { font-size: 28px; }
 
-/* --- REVEAL ANIMATION (CSS fallback) --- */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+/* --- REVEAL / POSTER MOTION HOOKS ---
+   Every hook below is VISIBLE AT REST. The from-state is written only by
+   lib/animations.js, and only after it has confirmed motion is allowed.
+
+   This used to be the other way round: `.reveal` shipped `opacity: 0`
+   with a `.reveal.in` class that nothing in the codebase ever added, so
+   the section was only ever rescued by GSAP writing an inline opacity,
+   or by a reduced-motion `!important` override. Any failure to load the
+   GSAP chunk blanked most of the page. Owning the from-state in JS
+   removes that failure mode and makes the per-module reduced-motion
+   overrides unnecessary. */
+
+/* One line of display type, masked so it can be uncovered from behind
+   its own baseline rather than flown in. The padding/negative-margin
+   pair gives ascenders and descenders room so the mask never crops a
+   letter at rest. */
+.poster-line {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.14em;
+  margin-block: -0.14em;
 }
-.reveal.in {
-  opacity: 1;
-  transform: translateY(0);
+.poster-line__ink {
+  display: block;
+}
+
+/* A block of display type that wipes on rather than sliding: used where
+   the headline wraps to an unknown number of lines and a per-line mask
+   would need measuring. */
+.poster-wipe {
+  display: block;
 }
 
 /* ============================================================

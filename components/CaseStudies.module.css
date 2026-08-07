@@ -281,12 +281,10 @@
   }
 }
 
-/* --- Reduced motion: never leave a case invisible --- */
+/* --- Reduced motion ---
+   No opacity rescue needed: lib/animations.js never writes a from-state
+   when reduced motion is requested. Only the CSS transitions remain. */
 @media (prefers-reduced-motion: reduce) {
-  .case {
-    opacity: 1 !important;
-    transform: none !important;
-  }
   .body,
   .bodyInner,
   .chevron,

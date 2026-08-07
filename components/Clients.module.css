@@ -141,12 +141,10 @@
   }
 }
 
-/* --- Reduced motion: stagger must never leave the wall invisible --- */
+/* --- Reduced motion ---
+   The stagger from-state is never written when reduced motion is on, so
+   the wall cannot be left invisible and needs no override. */
 @media (prefers-reduced-motion: reduce) {
-  .grid > .cell {
-    opacity: 1 !important;
-    transform: none !important;
-  }
   .mark,
   .plateName,
   .cat {

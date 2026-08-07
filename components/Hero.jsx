@@ -18,18 +18,30 @@ const LOGO_FILES = {
 
 export default function Hero() {
   return (
-    <section className={styles.hero} id="hero">
+    <section className={styles.hero} id="hero" data-rule-load>
       <div className={styles.container}>
         <span className={styles.eyebrow}>Senior Brand &amp; Growth Strategist</span>
 
         {/* Display Poster Headline: takes the full page measure, never the
-            width of a column — that is what keeps it to two lines. */}
-        <h1 className={styles.headline}>
-          I don&apos;t sell decks.<br />
-          I sell <span className={styles.headlineAccent}>decisions.</span>
+            width of a column — that is what keeps it to two lines.
+
+            Each line is wrapped in a .poster-line mask so lib/animations.js
+            can uncover it from behind its own baseline. The wrapper spans
+            are block-level, which is what used to be the <br />'s job — the
+            words themselves are untouched. Both spans are visible at rest;
+            only GSAP ever hides them. */}
+        <h1 className={styles.headline} data-poster-lines="load">
+          <span className="poster-line">
+            <span className="poster-line__ink">I don&apos;t sell decks.</span>
+          </span>
+          <span className="poster-line">
+            <span className="poster-line__ink">
+              I sell <span className={styles.headlineAccent}>decisions.</span>
+            </span>
+          </span>
         </h1>
 
-        <div className={styles.rule} />
+        <div className={`${styles.rule} rule-draw`} />
 
         <div className={styles.grid}>
           <div>
