@@ -1,0 +1,25 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Next.js and React move together; separate PRs for them tend to
+      # produce an unbuildable intermediate state.
+      next-react:
+        patterns:
+          - "next"
+          - "react"
+          - "react-dom"
+      animation:
+        patterns:
+          - "gsap"
+          - "lenis"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
