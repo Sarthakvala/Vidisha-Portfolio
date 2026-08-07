@@ -10,9 +10,14 @@ export default function About() {
         <div className={styles.grid}>
           <div className={`${styles.copy} reveal`}>
             <span className={styles.eyebrow}>About</span>
-            <p className={styles.statement}>
+            {/* h2, not p. This pull-quote is the section's heading, and as
+                a paragraph it left #about contributing nothing to the
+                document outline — anyone navigating by heading skipped
+                the section. The copy and the styling are unchanged; the
+                module class outranks the element selector. */}
+            <h2 className={styles.statement}>
               &ldquo;I start with the <span className={styles.tension}>tension</span>, not the brief.&rdquo;
-            </p>
+            </h2>
             <p className={styles.bio}>
               Every brand I work on starts with the same question: what is the audience navigating that the category isn&apos;t addressing? I build the positioning or content architecture that resolves it, then hold the work to measurable standards — market share, brand health, recall. The other half is building strategists who can do this without me in the room.
             </p>
@@ -28,7 +33,7 @@ export default function About() {
           </figure>
 
           <div className={`${styles.process} reveal`}>
-            <div className={styles.processTitle}>My Strategic Process</div>
+            <h3 className={styles.processTitle}>My Strategic Process</h3>
             <div className={styles.flow}>
               {processSteps.map((step, i) => (
                 <span key={step.num} style={{ display: 'contents' }}>

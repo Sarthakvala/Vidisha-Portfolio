@@ -17,14 +17,16 @@
   max-width: 62ch;
 }
 .eyebrow {
-  display: block;
+  display: inline-block;
   font-size: var(--text-caption);
   line-height: var(--leading-caption);
   font-weight: var(--font-weight-regular);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   color: var(--ink-s);
   margin-bottom: var(--spacing-24);
+  padding-bottom: var(--spacing-8);
+  border-bottom: 1px solid var(--ln);
 }
 .title {
   font-family: var(--font-switzer);

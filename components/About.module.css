@@ -35,15 +35,17 @@
 
 /* ---------- Section Title Block ---------- */
 .eyebrow {
-  display: block;
+  display: inline-block;
   font-family: var(--font-switzer);
   font-size: var(--text-caption);
   line-height: var(--leading-caption);
   font-weight: var(--font-weight-regular);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   color: var(--ink-s);
   margin: 0 0 var(--spacing-48);
+  padding-bottom: var(--spacing-8);
+  border-bottom: 1px solid var(--ln);
 }
 
 /* The pull-quote IS the statement headline. 34-54px, weight 300. */
@@ -80,13 +82,19 @@
 }
 
 /* ---------- Right rail: the photograph ---------- */
+/* The same split the hero uses — copy left, portrait right — so it takes
+   the hero's divider too. A 64px gap on its own reads as two things
+   placed near each other; the hairline is what makes it one composition.
+   The tint fill goes with it: the hero's portrait sits on a flat plate,
+   not a translucent wash. */
 .photo {
   grid-column: 2;
   grid-row: 1;
   margin: 0;
+  padding-left: var(--spacing-64);
+  border-left: 1px solid var(--ln);
   border-radius: var(--radius-images);
-  overflow: hidden;
-  background: var(--accent-w);
+  background: transparent;
 }
 
 .photo img {
@@ -173,9 +181,15 @@
   .process {
     grid-column: 1;
   }
+  /* Once the columns stack, the divider rotates from the column edge to
+     above the photo — same device, same as the hero does at this width. */
   .photo {
     grid-row: auto;
     max-width: 320px;
+    padding-left: 0;
+    padding-top: var(--spacing-48);
+    border-left: 0;
+    border-top: 1px solid var(--ln);
   }
   .statement {
     max-width: none;

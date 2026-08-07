@@ -337,10 +337,51 @@ button { font-family: inherit; color: inherit; }
   position: relative;
 }
 
-/* Sections are separated by a hairline, not a background band. This is
-   the primary reference's structural device. */
-.section + .section { border-top: 1px solid var(--ln); }
 .section--alt { background: var(--bg2); }
+
+/* ============================================================
+   SECTION RHYTHM — normalised across every section
+
+   These rules used to be written against the global `.section` class,
+   but most sections are styled by their own CSS Module and never carry
+   it. The result was a page where eight of thirteen sections sat on
+   32px of vertical padding instead of 112px, and the hairline that is
+   supposed to separate them fired on exactly one.
+
+   Specificity note: `main > section[id]` is (0,1,2), which outranks the
+   single-class rules the modules use, so the rhythm is corrected here
+   rather than by editing thirteen files. Modules still own everything
+   inside their section — this only governs the shell.
+   ============================================================ */
+
+/* The hero opts out: its top padding has to clear the fixed nav. */
+main > section[id]:not(#hero) {
+  padding-block: var(--spacing-112);
+}
+
+/* Separation by line, never by a background band. */
+main > section[id] + section[id] {
+  border-top: 1px solid var(--ln);
+}
+
+/* A section that sets its own field supplies its own edges — a hairline
+   at the boundary of an inverted band is both redundant and the wrong
+   colour on one side of it.
+
+   These have to repeat the full sibling shape of the rule above. The
+   separator selector scores (0,2,3); a shorter override like
+   `main > section[data-band]` scores (0,1,2) and loses, which is exactly
+   how a bone hairline ended up drawn across the top of the navy band. */
+main > section[id] + section[id][data-band],
+main > section[id][data-band] + section[id] {
+  border-top: 0;
+}
+
+@media (max-width: 640px) {
+  main > section[id]:not(#hero) {
+    padding-block: var(--spacing-64);
+  }
+}
 
 .section-header {
   margin-bottom: var(--spacing-64);

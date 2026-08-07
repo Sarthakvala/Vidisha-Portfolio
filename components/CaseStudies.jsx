@@ -96,7 +96,7 @@ export default function CaseStudies() {
   };
 
   return (
-    <section className={styles.section} id="cases">
+    <section className={styles.section} id="cases" data-band="inverted">
       <div className={styles.wrap}>
         <div className={`${styles.header} reveal`}>
           <span className={styles.eyebrow}>Case Studies</span>
