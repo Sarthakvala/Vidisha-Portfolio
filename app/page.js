@@ -16,7 +16,6 @@ import Education from '@/components/Education';
 import AtAGlance from '@/components/AtAGlance';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
-import AmbientCursorSpotlight from '@/components/AmbientCursorSpotlight';
 
 /* ============================================================
    PAGE COMPOSITION
@@ -27,7 +26,6 @@ export default function Home() {
 
   return (
     <>
-      <AmbientCursorSpotlight />
       <Navbar />
       {/* Every section sat outside a main landmark, so screen-reader
           "skip to content" and landmark navigation had nothing to target. */}

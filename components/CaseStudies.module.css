@@ -8,6 +8,65 @@
    and Magenta Bloom hairlines on the award tags.
    ============================================================ */
 
+/* ============================================================
+   THE INVERTED BAND
+
+   The one section that flips. Navy Ink is DESIGN.md's own "Inverted
+   Field" and an existing surface token, so this is the system's
+   sanctioned way to set a section apart — not a new colour, and not the
+   alternating background bands the extraction explicitly rules out.
+
+   The neutral ramp is re-derived locally exactly the way the dark theme
+   derives it, so every child inherits correct ink, secondary and
+   hairline values without any component knowing it is on navy.
+
+   In dark mode the page canvas is already navy, so the band inverts the
+   other way — to Bone White. The section stays "the different one" in
+   both themes rather than disappearing in one of them.
+   ============================================================ */
+.section {
+  padding: var(--spacing-112) 0;
+  background: var(--color-navy-ink);
+
+  --ink: var(--color-bone-white);
+  --ink-s: rgba(255, 254, 247, 0.68);
+  --ink-f: rgba(255, 254, 247, 0.52);
+  --ln: rgba(255, 254, 247, 0.18);
+  --ln-h: rgba(255, 254, 247, 0.48);
+  --glass-border: rgba(255, 254, 247, 0.18);
+  --on-accent: var(--color-navy-ink);
+
+  /* The two chromatic hairlines have to swap to their light counterparts
+     on this field. Magenta Bloom measures 1.93:1 against Navy Ink and
+     Forest Teal 2.4:1 — both are effectively invisible. Candy Pink and
+     Mint Wash are the same two colour families from the same palette,
+     inverted, at 10.38:1 and better. */
+  --accent-tag-line: var(--color-candy-pink);
+  --accent-rule: var(--color-mint-wash);
+}
+
+[data-theme="dark"] .section {
+  background: var(--color-bone-white);
+
+  --ink: var(--color-ink-black);
+  --ink-s: var(--color-graphite);
+  --ink-f: #737373;
+  --ln: rgba(0, 0, 0, 0.16);
+  --ln-h: rgba(0, 0, 0, 0.42);
+  --glass-border: rgba(0, 0, 0, 0.16);
+  --on-accent: var(--color-bone-white);
+
+  /* Band is bone here, so the dark originals are correct again. */
+  --accent-tag-line: var(--color-magenta-bloom);
+  --accent-rule: var(--color-forest-teal);
+}
+
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--spacing-32);
+}
+
 .header {
   margin-bottom: var(--spacing-64);
   max-width: 62ch;
@@ -32,27 +91,111 @@
   text-wrap: balance;
 }
 
-/* --- List --- */
-.list {
+/* ============================================================
+   THE RAIL
+
+   Full-bleed horizontal scroller. The gutter padding is applied to the
+   rail itself rather than a wrapper, so the first panel lines up with
+   the header above it while the last one runs off the right edge — which
+   is the affordance that tells you it scrolls.
+
+   scroll-padding-inline matches that gutter so a snapped panel lands on
+   the same grid line as the header instead of flush to the viewport.
+   ============================================================ */
+.rail {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline-start: max(var(--spacing-32), calc((100vw - var(--maxw)) / 2 + var(--spacing-32)));
+  padding-inline: max(var(--spacing-32), calc((100vw - var(--maxw)) / 2 + var(--spacing-32)));
   border-top: 1px solid var(--ln);
-}
-
-.case {
-  padding: var(--spacing-48) var(--spacing-24);
   border-bottom: 1px solid var(--ln);
-  border-radius: 16px;
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  margin-bottom: var(--spacing-16);
+
+  /* Hairline scrollbar, in keeping with the rest of the system. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--ln-h) transparent;
 }
 
-.case:hover {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: var(--cat-coral);
-  transform: translateY(-2px);
+.rail::-webkit-scrollbar { height: 1px; }
+.rail::-webkit-scrollbar-track { background: var(--ln); }
+.rail::-webkit-scrollbar-thumb { background: var(--ln-h); }
+
+/* The container is focusable so keyboard users can scroll it, which
+   means it needs a visible focus ring like any other control. */
+.rail:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
 }
 
-[data-theme="light"] .case:hover {
-  background: rgba(0, 0, 0, 0.02);
+/* Panels are columns in the ledger, divided by the same hairline used
+   everywhere else. Fixed width — they must not stretch to fill, or the
+   rail stops being a rail on wide screens. */
+.case {
+  flex: 0 0 auto;
+  width: clamp(280px, 80vw, 420px);
+  scroll-snap-align: start;
+  padding: var(--spacing-48) var(--spacing-32) var(--spacing-48) 0;
+  margin-right: var(--spacing-32);
+  border-right: 1px solid var(--ln);
+  border-radius: var(--radius-cards);
+  transition: border-color var(--motion-base) var(--ease);
+}
+
+.case:last-child { border-right: 0; margin-right: 0; }
+.case:hover { border-right-color: var(--ln-h); }
+
+/* --- Panel head: mark + index --- */
+.caseHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-16);
+  margin-bottom: var(--spacing-32);
+}
+
+/* Constant Bone White plate, both themes. See the note in the JSX: a
+   black wordmark on navy simply is not there. */
+.logoPlate {
+  flex: 0 0 auto;
+  width: 132px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-16);
+  background: var(--color-bone-white);
+  border-radius: var(--radius-cards);
+}
+
+.logoPlate img {
+  max-height: 28px;
+  max-width: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Approved name-plate for the mark we do not have a file for. */
+.logoName {
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-graphite);
+  text-align: center;
+}
+
+/* Editorial index numeral, borrowed from Gustavo Faria. Decorative and
+   aria-hidden — it is a position marker, not a claim. */
+.index {
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: var(--font-weight-light);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--ink-f);
+  font-variant-numeric: tabular-nums;
 }
 
 /* --- Head --- */
@@ -60,32 +203,36 @@
   display: inline-block;
   padding: 8px 14px;
   border: 1px solid var(--glass-border);
-  border-radius: 9999px;
+  border-radius: var(--radius-tags);
   background: transparent;
   font-size: var(--text-caption);
   line-height: 1.2;
-  font-weight: 600;
+  /* Weight 400, not 600. This system has exactly two weights and the
+     heavier one is not used for chrome — a later pass bolded these and
+     they were the only 600-weight text on the page. */
+  font-weight: var(--font-weight-regular);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--ink);
-  transition: all 0.25s ease;
+  transition: border-color var(--motion-base) var(--ease);
 }
+
+.case:hover .tag { border-color: var(--ln-h); }
 
 .caseTitle {
   margin-top: var(--spacing-24);
   font-family: var(--font-switzer);
-  font-size: clamp(26px, 3.4vw, 44px);
-  line-height: 1.08;
+  /* Sized for a ~420px column, not a full-measure row. */
+  font-size: clamp(24px, 2.4vw, 32px);
+  line-height: 1.1;
   letter-spacing: -0.027em;
   font-weight: var(--font-weight-light);
   color: var(--ink);
-  max-width: 20ch;
   text-wrap: balance;
 }
 
 .tagline {
   margin: var(--spacing-16) 0 0;
-  max-width: 56ch;
   font-size: var(--text-subheading);
   line-height: var(--leading-subheading);
   letter-spacing: -0.018em;
@@ -94,40 +241,45 @@
   text-wrap: pretty;
 }
 
-/* --- Metrics ledger --- */
+/* --- Metrics ledger ---
+   Stacked inside the panel rather than three across: at 420px, three
+   columns put "₹50K Cr" and "Midwives Trained" on two lines each and the
+   figures stopped being scannable. Same ledger device as the hero,
+   rotated to suit the column. */
 .metrics {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: var(--spacing-48);
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: var(--spacing-32);
   border-top: 1px solid var(--ln);
 }
 .metric {
-  padding: var(--spacing-24) var(--spacing-24) var(--spacing-24) 0;
-  border-left: 1px solid var(--ln);
-  padding-left: var(--spacing-24);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-16);
+  padding: var(--spacing-16) 0;
+  border-bottom: 1px solid var(--ln);
 }
-.metric:first-child {
-  border-left: 0;
-  padding-left: 0;
-}
+.metric:last-child { border-bottom: 0; }
+
 .metricValue {
-  display: block;
   font-family: var(--font-switzer);
-  font-size: clamp(28px, 3.6vw, 44px);
+  font-size: clamp(24px, 2.4vw, 32px);
   line-height: 1;
   letter-spacing: -0.027em;
   font-weight: var(--font-weight-light);
   color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 .metricLabel {
-  display: block;
-  margin-top: var(--spacing-16);
   font-size: var(--text-caption);
   line-height: var(--leading-caption);
   font-weight: var(--font-weight-regular);
   text-transform: uppercase;
   letter-spacing: 0.07em;
   color: var(--ink-s);
+  text-align: right;
 }
 
 /* --- Toggle --- */
@@ -222,7 +374,7 @@
 .impact {
   margin-top: var(--spacing-24);
   padding-left: var(--spacing-24);
-  border-left: 1px solid var(--color-forest-teal);
+  border-left: 1px solid var(--accent-rule);
 }
 .impact .detailText {
   color: var(--ink-s);
@@ -238,7 +390,7 @@
 .awardTags span {
   display: inline-block;
   padding: 8px 12px;
-  border: 1px solid var(--color-magenta-bloom);
+  border: 1px solid var(--accent-tag-line);
   border-radius: var(--radius-tags);
   font-size: var(--text-caption);
   line-height: 1.2;
@@ -274,24 +426,38 @@
 
 /* --- Responsive --- */
 @media (max-width: 640px) {
+  .section { padding: var(--spacing-64) 0; }
+  .wrap { padding: 0 var(--spacing-24); }
+
+  .rail {
+    padding-inline: var(--spacing-24);
+    scroll-padding-inline-start: var(--spacing-24);
+    /* Mandatory snap on touch: one panel per swipe reads as intended
+       here, where proximity on a wide desktop rail does not fight the
+       trackpad. */
+    scroll-snap-type: x mandatory;
+  }
+
   .case {
-    padding: var(--spacing-32) 0;
+    padding: var(--spacing-32) var(--spacing-24) var(--spacing-32) 0;
+    margin-right: var(--spacing-24);
   }
-  .metrics {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .metric {
-    border-left: 0;
-    border-top: 1px solid var(--ln);
-    padding-left: 0;
-  }
-  .metric:first-child {
-    border-top: 0;
-  }
+
+  .logoPlate { width: 116px; height: 56px; }
+
   .learnLabel {
     display: block;
     margin: 0 0 var(--spacing-16);
     width: fit-content;
+  }
+}
+
+/* Never smooth-scroll or snap for someone who asked for no motion:
+   snapping is an involuntary movement they did not initiate. */
+@media (prefers-reduced-motion: reduce) {
+  .rail {
+    scroll-behavior: auto;
+    scroll-snap-type: none;
   }
 }
 

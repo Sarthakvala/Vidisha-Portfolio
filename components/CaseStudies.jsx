@@ -72,6 +72,22 @@ function Chevron() {
   );
 }
 
+/* Cleaned, background-stripped marks. Netflix has no source file and
+   renders as an approved name-plate, same policy as the hero trust bar —
+   not fabricated or traced. */
+const CASE_LOGOS = {
+  rupay: 'rupay.png',
+  jnj: 'johnsons-baby.png',
+  nav: 'navratna.png',
+};
+
+const CASE_BRAND = {
+  rupay: 'RuPay',
+  jnj: "Johnson's Baby",
+  nav: 'Navratna',
+  nfx: 'Netflix',
+};
+
 export default function CaseStudies() {
   const [expandedCS, setExpandedCS] = useState({});
 
@@ -80,28 +96,67 @@ export default function CaseStudies() {
   };
 
   return (
-    <section className="section" id="cases">
-      <div className="wrap">
+    <section className={styles.section} id="cases">
+      <div className={styles.wrap}>
         <div className={`${styles.header} reveal`}>
           <span className={styles.eyebrow}>Case Studies</span>
           <h2 className={styles.title}>Deep dives into the strategy.</h2>
         </div>
+      </div>
 
-        <div className={styles.list}>
+      {/* Native horizontal overflow, not a JS carousel: the browser gives
+          us momentum, trackpad gestures and — because the container is
+          focusable and labelled — arrow-key scrolling for free. A custom
+          carousel would have to reimplement all of that and usually
+          reimplements none of it. */}
+      <div
+        className={styles.rail}
+        role="region"
+        aria-label="Case studies, scroll horizontally for more"
+        tabIndex={0}
+      >
           {caseStudies.map((cs, idx) => {
             const isOpen = Boolean(expandedCS[cs.id]);
-            const colors = ['var(--cat-coral)', 'var(--cat-yellow)', 'var(--cat-cyan)', 'var(--cat-purple)'];
-            const catColor = colors[idx % colors.length];
+
+            /* The per-case colour coding is gone on purpose. It set
+               data-category-color to --cat-cyan and --cat-purple, neither
+               of which exists as a token, so two of the four resolved to
+               nothing — and colour-coding four dossiers contradicts the
+               rationed-accent rule anyway. Colour here is spent on the
+               Signal Yellow takeaway badge and the Magenta award hairlines. */
+            const logo = CASE_LOGOS[cs.id];
 
             return (
-              <article className={`${styles.case} reveal`} key={cs.id} data-category-color={catColor}>
-                <span className={styles.tag} data-category-color={catColor}>{cs.tag}</span>
+              <article className={`${styles.case} reveal`} key={cs.id}>
+                <div className={styles.caseHead}>
+                  {/* Bone White plate in both themes. On this navy band
+                      that is not a stylistic choice — a black wordmark on
+                      navy is invisible, which is exactly why the logo
+                      policy specifies a constant light plate. */}
+                  <div className={styles.logoPlate}>
+                    {logo ? (
+                      <img
+                        src={`/assets/logos/${logo}`}
+                        alt={CASE_BRAND[cs.id]}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      <span className={styles.logoName}>{CASE_BRAND[cs.id]}</span>
+                    )}
+                  </div>
+                  <span className={styles.index} aria-hidden="true">
+                    {String(idx + 1).padStart(2, '0')}
+                  </span>
+                </div>
+
+                <span className={styles.tag}>{cs.tag}</span>
                 <h3 className={styles.caseTitle}>{cs.title}</h3>
                 <p className={styles.tagline}>{cs.tagline}</p>
 
                 <div className={styles.metrics}>
                   {cs.metrics.map((m) => (
-                    <div className={styles.metric} key={m.label} data-category-color={catColor}>
+                    <div className={styles.metric} key={m.label}>
                       <span className={styles.metricValue}>{m.value}</span>
                       <span className={styles.metricLabel}>{m.label}</span>
                     </div>
@@ -131,8 +186,7 @@ export default function CaseStudies() {
                 </div>
               </article>
             );
-          })}
-        </div>
+        })}
       </div>
     </section>
   );

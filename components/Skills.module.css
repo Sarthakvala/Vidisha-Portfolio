@@ -52,30 +52,27 @@
   row-gap: var(--spacing-48);
 }
 
-/* Entry: hairline-topped catalog row. No border box, no radius, no shadow. */
+/* Entry: hairline-topped catalog row. No border box, no radius, no shadow.
+   The file header has described it this way all along; a later pass
+   overwrote the rule with a 16px tinted box and a translateY hover, which
+   is what put six rounded cards back into a system that has none. */
 .card {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--spacing-16);
-  padding: var(--spacing-24);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.02);
+  padding-top: var(--spacing-24);
+  border: 0;
+  border-top: 1px solid var(--ln);
+  border-radius: var(--radius-cards);
+  background: transparent;
   box-shadow: none;
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: border-color var(--motion-base) var(--ease);
 }
 
-[data-theme="light"] .card {
-  border-color: rgba(0, 0, 0, 0.08);
-  background: rgba(0, 0, 0, 0.02);
-}
-
-.card:hover {
-  border-color: var(--cat-coral);
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.04);
-}
+/* Only the hairline darkens. No fill change, no lift — the extraction's
+   single documented interaction note. */
+.card:hover { border-top-color: var(--ln-h); }
 
 .icon {
   color: var(--ink);

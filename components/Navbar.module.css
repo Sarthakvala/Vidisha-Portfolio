@@ -1,281 +1,268 @@
 /* ============================================================
-   NAVBAR — Jo Mendes Floating Glass Pill Header System
+   NAVBAR — hairline bar
+
+   Was a "floating glass pill" borrowed from an unrelated reference:
+   9999px container, 16px backdrop blur, a translucent navy fill and a
+   --cat-coral border that did not resolve to a real token. None of that
+   belongs to the ledger system, and all three primary references
+   (Odin's Crow, Christopher Ireland, Gustavo Faria) do the same thing
+   here instead — small text links on the page canvas, no chrome, with a
+   single hairline separating the bar from the content.
+
+   The markup is untouched: its Escape handling, focus trap, scroll lock
+   and aria wiring are correct and were not part of the drift.
    ============================================================ */
 
 .header {
   position: fixed;
-  top: 16px;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  pointer-events: none;
-  display: flex;
-  justify-content: center;
-  padding: 0 16px;
+  height: var(--navh);
+  background: var(--bg);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--motion-base) var(--ease);
 }
+
+/* The bar announces itself by growing a hairline, not by changing fill,
+   blurring, or shrinking. */
+.headerScrolled { border-bottom-color: var(--ln); }
 
 .inner {
-  pointer-events: auto;
-  width: auto;
-  max-width: 1080px;
-  min-height: 54px;
-  padding: 6px 12px 6px 16px;
+  height: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--spacing-32);
   display: flex;
   align-items: center;
-  gap: var(--spacing-24);
-  background: rgba(16, 23, 49, 0.82);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 9999px;
-  box-shadow: none; /* zero-shadow rule: depth comes from line work */
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  gap: var(--spacing-32);
 }
 
-[data-theme="light"] .inner {
-  background: rgba(255, 254, 247, 0.88);
-  border-color: rgba(0, 0, 0, 0.12);
-  box-shadow: none; /* zero-shadow rule: depth comes from line work */
-}
-
-.headerScrolled .inner {
-  background: rgba(11, 13, 20, 0.95);
-  border-color: var(--cat-coral);
-  box-shadow: none; /* zero-shadow rule: depth comes from line work */
-}
-
-[data-theme="light"].headerScrolled .inner {
-  background: rgba(255, 254, 247, 0.98);
-  border-color: var(--color-ink-black);
-}
-
-/* --- Lockup: circular avatar + brand name --- */
+/* --- Lockup --- */
 .lockup {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--spacing-16);
   flex-shrink: 0;
   color: var(--ink);
   text-decoration: none;
 }
 
+/* Square, not circular: --radius-images is 0px and the avatar is an
+   image like any other. */
 .mark {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
+  border-radius: var(--radius-images);
   overflow: hidden;
   flex-shrink: 0;
-  border: 1px solid var(--cat-coral);
+  filter: grayscale(1);
+  transition: filter var(--motion-base) var(--ease);
 }
 
-.mark img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
+.lockup:hover .mark { filter: none; }
+
+.mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 .lockupName {
-  font-family: var(--font-switzer);
-  font-size: 13px;
+  font-size: var(--text-caption);
   line-height: 1;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: var(--font-weight-regular);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink);
   white-space: nowrap;
 }
 
-/* --- Nav links --- */
+/* --- Links --- */
 .nav {
   display: flex;
   align-items: center;
-  gap: clamp(10px, 1.4vw, 20px);
+  gap: clamp(12px, 1.6vw, 24px);
+  margin-left: auto;
 }
 
 .link {
   position: relative;
-  font-family: var(--font-switzer);
-  font-size: 12px;
+  font-size: var(--text-caption);
   line-height: 1;
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  font-weight: var(--font-weight-regular);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-s);
   text-decoration: none;
-  padding: 8px 12px;
-  border-radius: 9999px;
+  padding: var(--spacing-8) 0;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
   white-space: nowrap;
-  transition: all 0.25s ease;
+  transition: color var(--motion-fast) var(--ease),
+              border-color var(--motion-fast) var(--ease);
 }
 
 .link:hover,
-.link:focus-visible {
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.08);
-}
+.link:focus-visible { color: var(--ink); }
 
-[data-theme="light"] .link:hover,
-[data-theme="light"] .link:focus-visible {
-  background: rgba(0, 0, 0, 0.05);
-}
-
+/* Current section is marked by ink and a hairline underline — no pill,
+   no fill. The previous rule painted it coral-on-white, which was both
+   an undefined token and the only filled nav state in the system. */
 .linkActive {
-  color: #ffffff;
-  background: var(--cat-coral) !important;
-  font-weight: 600;
+  color: var(--ink);
+  border-bottom-color: var(--ink);
 }
 
-/* --- Actions cluster --- */
+/* --- Actions --- */
 .actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-16);
   flex-shrink: 0;
 }
 
+/* 44px, not 36px: this is a touch target. */
 .iconBtn {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--ln);
+  border-radius: var(--radius-cards);
+  background: transparent;
   color: var(--ink);
   cursor: pointer;
   padding: 0;
-  transition: all 0.25s ease;
+  transition: border-color var(--motion-base) var(--ease);
 }
 
-[data-theme="light"] .iconBtn {
-  border-color: rgba(0, 0, 0, 0.15);
-  background: rgba(0, 0, 0, 0.03);
-}
-
-.iconBtn:hover {
-  border-color: var(--cat-coral);
-  color: var(--cat-coral);
-  transform: scale(1.05);
-}
-
-.iconBtn svg {
-  width: 16px;
-  height: 16px;
-  display: block;
-}
+.iconBtn:hover { border-color: var(--ink); }
+.iconBtn svg { width: 16px; height: 16px; display: block; }
 
 .cta {
-  font-family: var(--font-switzer);
-  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-caption);
   line-height: 1;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: var(--font-weight-regular);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #000000;
-  background: var(--cat-yellow);
-  border-radius: 9999px;
-  padding: 10px 18px;
+  color: var(--on-accent);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-buttons);
+  padding: 14px var(--spacing-24);
   text-decoration: none;
   white-space: nowrap;
-  transition: all 0.25s ease;
-  box-shadow: none; /* zero-shadow rule: depth comes from line work */
+  box-shadow: none;
+  transition: background var(--motion-base) var(--ease),
+              color var(--motion-base) var(--ease);
 }
 
+/* Inversion, matching the hero's primary button. No lift, no scale. */
 .cta:hover {
-  transform: translateY(-1px) scale(1.03);
-  box-shadow: none; /* zero-shadow rule: depth comes from line work */
+  background: transparent;
+  color: var(--ink);
 }
 
 .burger {
   display: none;
-  width: 38px;
-  height: 38px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--ln);
+  border-radius: var(--radius-cards);
+  background: transparent;
   cursor: pointer;
   padding: 0;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  transition: all 0.25s ease;
+  gap: 5px;
+  transition: border-color var(--motion-base) var(--ease);
 }
 
+.burger:hover { border-color: var(--ink); }
+
+/* 1px bars, matching the system's hairline weight. */
 .burger span {
   display: block;
-  width: 14px;
-  height: 2px;
+  width: 16px;
+  height: 1px;
   background: var(--ink);
-  border-radius: 1px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  border-radius: 0;
+  transition: transform var(--motion-base) var(--ease),
+              opacity var(--motion-base) var(--ease);
 }
 
-.burgerOpen span:nth-child(1) {
-  transform: translateY(6px) rotate(45deg);
-}
+.burgerOpen span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.burgerOpen span:nth-child(2) { opacity: 0; }
+.burgerOpen span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-.burgerOpen span:nth-child(2) {
-  opacity: 0;
-}
-
-.burgerOpen span:nth-child(3) {
-  transform: translateY(-6px) rotate(-45deg);
-}
-
+/* ============================================================
+   MOBILE
+   ============================================================ */
 @media (max-width: 960px) {
-  .burger {
-    display: flex;
-  }
+  .burger { display: flex; }
 
+  /* A full-measure sheet on the page canvas, dropped below the bar and
+     bounded by a hairline. No blur, no radius, no floating card. */
   .nav {
     position: fixed;
-    top: 76px;
-    left: 16px;
-    right: 16px;
+    top: var(--navh);
+    left: 0;
+    right: 0;
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
-    padding: 16px;
-    background: rgba(16, 23, 49, 0.95);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 20px;
+    gap: 0;
+    margin-left: 0;
+    padding: 0 var(--spacing-24) var(--spacing-24);
+    background: var(--bg);
+    border-bottom: 1px solid var(--ln);
+    border-radius: 0;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-    pointer-events: auto;
-  }
-
-  [data-theme="light"] .nav {
-    background: rgba(255, 254, 247, 0.98);
-    border-color: rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px);
+    transition: opacity var(--motion-base) var(--ease),
+                transform var(--motion-base) var(--ease),
+                visibility 0s linear var(--motion-base);
   }
 
   .navOpen {
     opacity: 1;
     visibility: visible;
     transform: none;
+    transition-delay: 0s;
   }
 
+  /* Links become a hairline-divided list — the same ledger device used
+     for content, applied to navigation. 48px rows are comfortable taps. */
   .link {
-    font-size: 14px;
-    padding: 12px 16px;
-    border-radius: 12px;
-    text-align: center;
+    font-size: var(--text-body-sm);
+    letter-spacing: 0.14em;
+    padding: 0;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--ln);
+    border-radius: 0;
+    text-align: left;
   }
+
+  .link:last-child { border-bottom: 0; }
+
+  .linkActive {
+    color: var(--ink);
+    border-bottom-color: var(--ln);
+  }
+
+  .lockupName { display: none; }
+}
+
+@media (max-width: 640px) {
+  .inner { padding: 0 var(--spacing-24); gap: var(--spacing-16); }
+  .cta { padding: 12px var(--spacing-16); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .header,
-  .inner,
-  .link,
-  .iconBtn,
-  .cta,
-  .nav {
-    transition: none !important;
+  .header, .link, .iconBtn, .cta, .burger, .burger span, .nav, .mark {
+    transition: none;
   }
 }

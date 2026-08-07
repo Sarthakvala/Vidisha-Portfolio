@@ -117,16 +117,16 @@ export default function WorkThatWon() {
       </div>
 
       <div className={styles.inner}>
-        <div className={`${styles.content} reveal`} data-category-color="var(--cat-yellow)">
+        <div className={`${styles.content} reveal`}>
           <h3 className={styles.title}>Johnson&apos;s Baby: Project Golden Minute</h3>
           <p className={styles.category}>FMCG · Campaign Strategy</p>
           <p className={styles.description}>
             Cannes Lions 2026 Shortlist. Proved heritage promise by training 200K+ midwives across 91% of India&apos;s districts. Shifted emotional connection in fragmented market.
           </p>
           <div className={styles.tags}>
-            <span data-category-color="var(--cat-yellow)">Cannes Lions Shortlist</span>
-            <span data-category-color="var(--cat-coral)">Ad Recall +4.3×</span>
-            <span data-category-color="var(--cat-purple)">6 Kyoorius Elephants</span>
+            <span>Cannes Lions Shortlist</span>
+            <span>Ad Recall +4.3×</span>
+            <span>6 Kyoorius Elephants</span>
           </div>
         </div>
       </div>
